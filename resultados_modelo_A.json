@@ -1,0 +1,48 @@
+{
+  "modelo": "A",
+  "numerador": [
+    3.1250000000000004,
+    0.0
+  ],
+  "denominador": [
+    0.0048000000000000004,
+    0.14792,
+    7.4025799999999995,
+    149.40707500000002,
+    772.245,
+    112.5
+  ],
+  "zeros": [
+    [
+      0.0,
+      0.0
+    ]
+  ],
+  "polos": [
+    [
+      -3.334919189320341,
+      35.23790640361384
+    ],
+    [
+      -3.334919189320341,
+      -35.23790640361384
+    ],
+    [
+      -16.385266693946345,
+      0.0
+    ],
+    [
+      -7.611561594079652,
+      0.0
+    ],
+    [
+      -0.15,
+      0.0
+    ]
+  ],
+  "sigma_max": -0.15,
+  "estabilidade": "BIBO estável (todos os polos com Re(s) < 0; a ROC contém o eixo jω)",
+  "causalidade": "causal (hipótese de realização física); H(s) estritamente própria",
+  "roc": "Re(s) > -0.15",
+  "residuo_relativo_max": 2.0323062655749765e-16
+}

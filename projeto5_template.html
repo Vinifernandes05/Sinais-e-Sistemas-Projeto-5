@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projeto 5 — Sinais e Sistemas · Refrigeração Criogênica por Pulso de Tubo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;background:#0b1022}
+body{height:100%;color:#e8ecff;font-family:"Segoe UI",system-ui,Arial,sans-serif;font-size:clamp(14px,2.3vh,22px);overflow:hidden}
+body::before{content:"";position:fixed;inset:-50%;background:conic-gradient(#22d3ee,#a78bfa,#f472b6,#fbbf24,#34d399,#22d3ee);opacity:.13;animation:spin 40s linear infinite;z-index:-1}
+@keyframes spin{to{transform:rotate(360deg)}}
+#bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#22d3ee,#a78bfa,#f472b6);transition:width .5s;z-index:5}
+#n{position:fixed;bottom:8px;right:14px;font-size:13px;opacity:.7;z-index:5}
+.s{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5vw;overflow:auto}
+.s>:first-child{margin-top:auto}.s>:last-child{margin-bottom:auto}
+.s.on{display:flex;animation:fx .6s ease}
+@keyframes fx{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:none}}
+.r{opacity:0;animation:up .6s forwards;animation-delay:var(--d,0s)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.k{font-size:.62em;letter-spacing:.2em;text-transform:uppercase;color:#fbbf24;margin-bottom:.3em}
+h1{font-size:clamp(24px,4.4vh,44px);line-height:1.15;margin-bottom:.5em;background:linear-gradient(90deg,#22d3ee,#a78bfa,#f472b6,#fbbf24,#22d3ee);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:up .6s both,grad 5s linear infinite}
+.cover h1{font-size:clamp(26px,5.6vh,54px)}
+@keyframes grad{to{background-position:200% center}}
+h2{font-size:1.05em;margin:.2em 0}
+p,li{line-height:1.4;margin:.25em 0}
+li{list-style:none}
+li::before{content:"▸ ";color:#22d3ee}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2.4vw;align-items:start}
+.col{background:rgba(255,255,255,.05);border:1px solid #ffffff1f;border-top:4px solid var(--a,#22d3ee);border-radius:14px;padding:.9em 1.1em}
+.col img{display:block;width:100%;height:auto;max-height:38vh;object-fit:contain;background:#fff;border-radius:10px;padding:6px}
+.src{font-size:.6em;opacity:.6;text-align:center;margin-top:.3em}
+.tag{font-size:.6em;background:var(--a,#22d3ee);color:#0b1022;border-radius:99px;padding:.15em .6em;margin-left:.4em;vertical-align:middle;font-weight:700}
+.io{color:#fde68a;font-size:.92em}
+.pl{margin-top:.3em}
+.pl li{font-size:.9em;margin:.1em 0}
+.sm{font-size:.85em;opacity:.9}
+.note{border:1px dashed #fbbf24;border-radius:12px;padding:.5em .8em;margin-top:.6em;background:rgba(251,191,36,.08);font-size:.9em}
+small{opacity:.8;font-size:.85em}
+.eq{background:rgba(0,0,0,.35);border-left:4px solid var(--a,#f472b6);border-radius:12px;padding:.45em .75em;margin:.35em 0;font-size:.92em;overflow-x:auto;font-family:"Cambria Math","STIX Two Math","Latin Modern Math","Times New Roman",serif;font-style:italic}
+.eq b,.quiz .eq{font-style:normal;font-family:"Segoe UI",system-ui,Arial,sans-serif}
+.f{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;vertical-align:middle;margin:0 .2em}
+.f>span{display:block;padding:.05em .3em;line-height:1.3}
+.f>span:first-child{border-bottom:1.5px solid currentColor}
+.box{display:inline-block;border:3px solid #fbbf24;border-radius:16px;padding:.5em .9em;box-shadow:0 0 28px #fbbf2466;animation:glow 2.4s ease-in-out infinite;font-family:"Cambria Math","STIX Two Math","Latin Modern Math","Times New Roman",serif;font-style:italic}
+@keyframes glow{50%{box-shadow:0 0 56px #fbbf24cc}}
+.flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.5em;margin:.6em 0}
+.n{padding:.5em .8em;border-radius:12px;text-align:center;background:var(--a,#22d3ee);color:#0b1022;font-weight:600;font-size:.92em}
+.arr{font-size:1.5em;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:.8em;margin-top:.7em}
+.c{background:rgba(255,255,255,.07);border:1px solid #ffffff26;border-left:4px solid var(--a,#22d3ee);border-radius:12px;padding:.5em .6em;text-align:center}
+.g5 .c:nth-child(2n){--a:#a78bfa}
+.op{display:inline-block;margin:.25em .4em 0 0;padding:.2em .7em;border-radius:99px;border:1px solid #ffffff55;font-size:.92em}
+.op.ok{background:#34d399;color:#0b1022;border-color:#34d399;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.92em}
+td,th{padding:.3em .5em;border-bottom:1px solid #ffffff26;text-align:left}
+th{color:#fbbf24}
+.g{display:grid;gap:.8em;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));margin-top:.8em}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8em;margin:.6em 0}
+.subsystems{gap:.8em;margin:1em 0 1.2em}
+.subsystems .c{display:flex;flex-direction:column;gap:.4em;padding:.65em .85em;line-height:1.35;font-size:.95em}
+.subsystems .c b{display:block;margin-bottom:.25em;line-height:1.2;color:#fff}
+.subsystems .states{display:inline-flex;gap:.3em;align-items:center;white-space:nowrap;margin-top:.2em;font-size:.95em;font-style:italic}
+.subsystems + .flow{margin:1.2em 0 .8em}
+.subsystems + .flow + p{margin-top:.8em}
+.plot{display:block;max-width:100%;max-height:50vh;margin:auto;border-radius:12px;background:#fff;padding:6px}
+details{margin-top:.4em;background:rgba(0,0,0,.25);border-radius:10px;padding:.35em .7em;font-size:.95em}
+summary{cursor:pointer;color:#fde68a;font-weight:600}
+.tab{width:100%;border-collapse:collapse;font-size:.85em;margin-top:.3em}
+.tab td,.tab th{padding:.2em .4em;border-bottom:1px solid #ffffff26;text-align:left}
+.tab th{color:#fbbf24}
+.anexo .k{color:#34d399}
+.anexo .eq{font-style:normal;font-family:"Segoe UI",system-ui,Arial,sans-serif}
+
+.in{width:100%;margin:.2em 0 .5em;padding:.4em .6em;border-radius:8px;border:1px solid #ffffff55;background:#0b1022;color:#e8ecff;font:inherit}
+.bt{margin:.2em .4em .2em 0;padding:.4em .9em;border-radius:99px;border:0;background:#22d3ee;color:#0b1022;font-weight:700;cursor:pointer}
+.bt:focus-visible,.nv:focus-visible,.in:focus-visible{outline:3px solid #fbbf24}
+#cv{width:100%;height:auto;background:#fff;border-radius:10px}
+.badge{display:inline-block;padding:.1em .7em;border-radius:99px;font-weight:700;color:#0b1022}
+#nav{position:fixed;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:.4em;z-index:6}
+.nv{background:#ffffff22;color:#e8ecff;border:1px solid #ffffff55;border-radius:8px;padding:.25em .8em;cursor:pointer;font:inherit}
+@media(max-width:800px){.two,.g3{grid-template-columns:1fr}.g5{grid-template-columns:1fr 1fr}.s{padding:3vh 4vw 8vh}body{overflow:auto}}
+</style>
+</head>
+<body>
+<div id="bar"></div><div id="n" aria-live="polite"></div><div id="nav" class="nonav"><button class="nv" id="pv" aria-label="Slide anterior">◀</button><button class="nv" id="nx" aria-label="Próximo slide">▶</button><button class="nv" id="fs" aria-label="Alternar tela cheia">⛶</button></div>
+<!-- Slide 1 - Capa -->
+<section class="s">
+<div class="k r">Sinais e Sistemas · Projeto 5</div>
+<h1>Sistema de Refrigeração Criogênica por Pulso de Tubo para Sensores de Satélites Quânticos</h1>
+<p class="r">Modelagem da entrada <b>v<sub>c</sub>(t)</b> (tensão no compressor) até a saída <b>T<sub>f</sub>(t)</b> (temperatura na extremidade fria)</p>
+<div class="r" style="margin-top:.6em"><span class="k">Equipe</span>
+<div class="g5"><div class="c">Vinicius Fernandes</div><div class="c">Marcos Menezes</div><div class="c">Rafael Guerra</div><div class="c">Rian Dutra</div><div class="c">Leonardo Magalhães</div></div></div>
+</section>
+
+<!-- Slide 2 - Problema e objetivo -->
+<section class="s">
+<div class="k r">Problema e objetivo</div>
+<h1>Qual é o problema?</h1>
+<div class="two">
+<ul class="r" style="display:flex;flex-direction:column;gap:1em;margin-top:.8em">
+<li>Sensores quânticos precisam operar <b>próximos do zero absoluto</b></li>
+<li>Para resfriá-los <b>sem vibrações espúrias</b>, usa-se um refrigerador de pulso de tubo (<i>Pulse Tube Cryocooler</i>)</li>
+<li>Esse refrigerador é alimentado por um <b>compressor acústico linear</b></li>
+<li>Hipótese de trabalho: tensão alternada no compressor, com análise da temperatura na extremidade fria</li>
+</ul>
+<div class="r" style="text-align:center">
+<div class="flow"><div class="n" style="--a:#22d3ee">Tens&atilde;o<br><b>V<sub>c</sub>(t)</b></div><span class="arr">→</span><div class="n" style="--a:#a78bfa">Sistema de<br>refrigeração</div><span class="arr">→</span><div class="n" style="--a:#f472b6">Saída<br><b>T<sub>f</sub>(t)</b></div></div>
+<p style="margin-top:1.6em">Objetivo final</p>
+<span class="box" style="font-size:1.3em;margin-top:1em;display:inline-block">H(s) = <span class="f"><span>T<sub>f</sub>(s)</span><span>V<sub>c</sub>(s)</span></span></span>
+</div></div>
+</section>
+
+<!-- Slide 3 - Subsistemas fisicos -->
+<section class="s">
+<div class="k r">Subsistemas físicos</div>
+<h1 style="margin-bottom:1em">Três subsistemas em cadeia</h1>
+<div class="g3 subsystems r" style="margin-top:1.2em">
+<div class="c" style="--a:#22d3ee"><b>1. Compressor linear eletrodinâmico</b>Ordem 2: massa, mola e amortecedor acoplados eletricamente. <span class="states">Estados: <i>x<sub>p</sub></i>, <i>v<sub>p</sub></i></span></div>
+<div class="c" style="--a:#a78bfa"><b>2. Coluna de gás hélio</b>Ordem 2: inércia do fluxo e complacência do gás. <span class="states">Estados: <i>v<sub>f</sub></i>, <i>p<sub>t</sub></i></span></div>
+<div class="c" style="--a:#fbbf24"><b>3. Regenerador térmico poroso</b>Ordem 1: retém e transfere calor. <span class="states">Estado: <i>T<sub>f</sub></i></span></div>
+</div>
+<div class="flow r"><div class="n" style="--a:#22d3ee">Tens&atilde;o<br><small>V<sub>c</sub>(t)</small></div><span class="arr">→</span><div class="n" style="--a:#22d3ee">Compressor<br><small>x<sub>p</sub>, v<sub>p</sub></small></div><span class="arr">→</span><div class="n" style="--a:#a78bfa">Coluna de hélio<br><small>p<sub>t</sub>, v<sub>f</sub></small></div><span class="arr">→</span><div class="n" style="--a:#fbbf24">Regenerador<br><small>T<sub>f</sub>(t)</small></div></div>
+<p class="r" style="text-align:center">Ordem total <b>2 + 2 + 1 = 5</b>: cinco estados independentes, logo a EDO final é de quinta ordem.</p>
+</section>
+
+<!-- Slide 4 - Variaveis e parametros -->
+<section class="s">
+<div class="k r">Variáveis e parâmetros</div>
+<h1>Variáveis de estado e parâmetros oficiais</h1>
+<table class="r"><tr><th>Símbolo</th><th>Significado</th><th>Unidade</th></tr>
+<tr><td>x<sub>p</sub>(t)</td><td>posição do pistão</td><td>m</td></tr>
+<tr><td>v<sub>p</sub>(t)</td><td>velocidade do pistão</td><td>m/s</td></tr>
+<tr><td>p<sub>t</sub>(t)</td><td>pressão acústica</td><td>Pa</td></tr>
+<tr><td>v<sub>f</sub>(t)</td><td>vazão volumétrica do gás (não é velocidade linear)</td><td>m³/s</td></tr>
+<tr><td>T<sub>f</sub>(t)</td><td>temperatura na extremidade fria</td><td>K</td></tr></table>
+<div class="g r">
+<div class="c">C<sub>th</sub> = 10 J/K</div><div class="c">H<sub>r</sub> = 1,5 W/K</div><div class="c">L<sub>f</sub> = 0,5 kg/m⁴</div><div class="c">R<sub>f</sub> = 12 Ns/m⁵</div><div class="c">C<sub>f</sub> = 8,0×10<sup>−4</sup> m⁵/N</div><div class="c">M<sub>p</sub> = 1,2 kg</div><div class="c">B<sub>p</sub> = 8 Ns/m</div><div class="c">K<sub>p</sub> = 1500 N/m</div><div class="c">A<sub>p</sub> = 0,05 m²</div><div class="c">K<sub>term</sub> = 250 K/(m³/s)</div><div class="c">K<sub>e</sub> = 5 N/V</div>
+</div>
+</section>
+
+<!-- Slide 5 - Eq. 1 -->
+<section class="s">
+<div class="k r">Eq. 1</div>
+<h1>Dinâmica eletromecânica do pistão</h1>
+<div class="two">
+<div class="col r" style="--a:#22d3ee">
+<p class="sm"><b>2ª Lei de Newton:</b> ΣF = M·a, com sentido positivo na força elétrica.</p>
+<div class="eq">F<sub>e</sub> = K<sub>e</sub>v<sub>c</sub> ; F<sub>p</sub> = A<sub>p</sub>p<sub>t</sub> ; F<sub>b</sub> = B<sub>p</sub>v<sub>p</sub> ; F<sub>k</sub> = K<sub>p</sub>x<sub>p</sub></div>
+<div class="eq">F<sub>e</sub> − F<sub>p</sub> − F<sub>b</sub> − F<sub>k</sub> = F<sub>i</sub> = M<sub>p</sub><span class="f"><span>dv<sub>p</sub></span><span>dt</span></span></div>
+<div class="eq">K<sub>e</sub>v<sub>c</sub> − A<sub>p</sub>p<sub>t</sub> − B<sub>p</sub>v<sub>p</sub> − K<sub>p</sub>x<sub>p</sub> = M<sub>p</sub><span class="f"><span>dv<sub>p</sub></span><span>dt</span></span></div>
+<p class="box">M<sub>p</sub><span class="f"><span>dv<sub>p</sub></span><span>dt</span></span> + B<sub>p</sub>v<sub>p</sub> + K<sub>p</sub>x<sub>p</sub> = K<sub>e</sub>v<sub>c</sub> − A<sub>p</sub>p<sub>t</sub></p>
+</div>
+<div class="col r" style="--a:#22d3ee"><img src="{{COMPRESSOR}}" alt="Compressor linear eletrodinâmico"><div class="src">Fonte: boreas-cryogenics.com</div></div>
+</div>
+</section>
+
+<!-- Slide 6 - Eq. 2 -->
+<section class="s">
+<div class="k r">Eq. 2</div>
+<h1>Definição de velocidade e equação em x<sub>p</sub></h1>
+<div class="eq r"><b>1. Definição:</b> v<sub>p</sub> = <span class="f"><span>dx<sub>p</sub></span><span>dt</span></span></div>
+<div class="eq r"><b>2. Aceleração:</b> <span class="f"><span>dv<sub>p</sub></span><span>dt</span></span> = <span class="f"><span>d²x<sub>p</sub></span><span>dt²</span></span></div>
+<div class="eq r"><b>3. Substituição na Eq. 1:</b> M<sub>p</sub><span class="f"><span>d²x<sub>p</sub></span><span>dt²</span></span> + B<sub>p</sub><span class="f"><span>dx<sub>p</sub></span><span>dt</span></span> + K<sub>p</sub>x<sub>p</sub> = K<sub>e</sub>v<sub>c</sub> − A<sub>p</sub>p<sub>t</sub></div>
+<p class="sm r">A equação relaciona posição e velocidade num único estado. O compressor fica com dois estados, (x<sub>p</sub>, v<sub>p</sub>), o que explica sua ordem 2.</p>
+</section>
+
+<!-- Slide 7 - Eq. 3 -->
+<section class="s">
+<div class="k r">Eq. 3</div>
+<h1>Inércia fluida na coluna de gás</h1>
+<div class="two">
+<div class="col r" style="--a:#a78bfa">
+<div class="eq"><b>Massa:</b> m = ρ·A<sub>t</sub>·ℓ (A<sub>t</sub>: área transversal do tubo)</div>
+<div class="eq"><b>2ª Lei:</b> A<sub>t</sub>p<sub>t</sub> − A<sub>t</sub>R<sub>f</sub>v<sub>f</sub> = ρ·A<sub>t</sub>·ℓ·<span class="f"><span>1</span><span>A<sub>t</sub></span></span><span class="f"><span>dv<sub>f</sub></span><span>dt</span></span></div>
+<div class="eq"><b>Divisão por A<sub>t</sub>:</b> p<sub>t</sub> − R<sub>f</sub>v<sub>f</sub> = <span class="f"><span>ρℓ</span><span>A<sub>t</sub></span></span><span class="f"><span>dv<sub>f</sub></span><span>dt</span></span></div>
+<p class="box">L<sub>f</sub><span class="f"><span>dv<sub>f</sub></span><span>dt</span></span> + R<sub>f</sub>v<sub>f</sub> = p<sub>t</sub></p>
+<p class="sm">Com L<sub>f</sub> = <span class="f"><span>ρℓ</span><span>A<sub>t</sub></span></span> (kg/m⁴, como na tabela). A<sub>p</sub> não aparece aqui: ele surge na força do pistão (Eq. 1).</p>
+</div>
+<div class="col r" style="--a:#fbbf24">
+<table><tr><th>Modelo</th><th>Lado esquerdo</th><th>Lado direito</th><th>Homogêneo</th></tr>
+<tr><td>A (impresso)</td><td>Pa</td><td>A<sub>p</sub>p<sub>t</sub>: N</td><td>não</td></tr>
+<tr><td>B (proposto)</td><td>Pa</td><td>p<sub>t</sub>: Pa</td><td>sim</td></tr></table>
+<p class="sm" style="margin-top:.6em">Só o Modelo B reproduz os coeficientes oficiais (slide 12). A escolha depende de confirmação do professor.</p>
+</div></div>
+</section>
+
+<!-- Slide 8 - Eq. 4 -->
+<section class="s">
+<div class="k r">Eq. 4</div>
+<h1>Compressibilidade do gás</h1>
+<div class="two">
+<div class="col r" style="--a:#a78bfa">
+<div class="eq"><b>Complacência:</b> C<sub>f</sub> = <span class="f"><span>V<sub>0</sub></span><span>γP<sub>0</sub></span></span> (m⁵/N), da lei adiabática linearizada</div>
+<div class="eq"><b>Balanço de volume:</b> Q<sub>entra</sub> − Q<sub>sai</sub> = C<sub>f</sub><span class="f"><span>dp<sub>t</sub></span><span>dt</span></span></div>
+<div class="eq">Q<sub>entra</sub> = A<sub>p</sub>v<sub>p</sub> (pistão) ; Q<sub>sai</sub> = v<sub>f</sub> (tubo)</div>
+<p class="box">C<sub>f</sub><span class="f"><span>dp<sub>t</sub></span><span>dt</span></span> = A<sub>p</sub>v<sub>p</sub> − v<sub>f</sub></p>
+<p class="sm">Hipóteses: pequenas variações em torno de P<sub>0</sub> e V<sub>0</sub>; processo adiabático.</p>
+</div>
+<div class="col r" style="--a:#a78bfa"><img src="{{COLUNA_HELIO}}" alt="Coluna de gás hélio no tubo"><div class="src">Fonte: rixindustries.com</div></div>
+</div>
+</section>
+
+<!-- Slide 9 - Eq. 5 -->
+<section class="s">
+<div class="k r">Eq. 5</div>
+<h1>Transferência de calor no regenerador</h1>
+<div class="two">
+<div class="col r" style="--a:#fbbf24">
+<div class="eq"><b>Balanço de energia:</b> C<sub>th</sub><span class="f"><span>dT<sub>f</sub></span><span>dt</span></span> = Φ<sub>entra</sub> − Φ<sub>sai</sub> − Φ<sub>perda</sub></div>
+<div class="eq">Φ<sub>entra</sub> − Φ<sub>sai</sub> = K<sub>term</sub>v<sub>f</sub> ; Φ<sub>perda</sub> = H<sub>r</sub>T<sub>f</sub> (linear, sem temperatura ambiente)</div>
+<p class="box">C<sub>th</sub><span class="f"><span>dT<sub>f</sub></span><span>dt</span></span> + H<sub>r</sub>T<sub>f</sub> = K<sub>term</sub>v<sub>f</sub></p>
+<p class="sm"><b>Unidades:</b> para o lado direito ser em W, K<sub>term</sub> deve estar em J/m³ = W/(m³/s). A unidade K/(m³/s) do enunciado é incompatível. Mantive o valor do enunciado; a confirmação é pendente.</p>
+</div>
+<div class="col r" style="--a:#fbbf24"><img src="{{REGENERADOR}}" alt="Regenerador térmico poroso"><div class="src">Fonte: satnow.com</div></div>
+</div>
+</section>
+
+<!-- Slide 10 - Eliminacao (passos 1 a 4) -->
+<section class="s">
+<div class="k r">Eliminação (passos 1 a 4)</div>
+<h1>Operador de derivação D</h1>
+<div class="eq r"><b>1. Isolar v<sub>f</sub> na Eq. 5:</b> v<sub>f</sub> = <span class="f"><span>G(D)T<sub>f</sub></span><span>K<sub>term</sub></span></span>, com G(D) = C<sub>th</sub>D + H<sub>r</sub></div>
+<div class="eq r"><b>2. Derivar v<sub>f</sub>:</b> Dv<sub>f</sub> = <span class="f"><span>D·G(D)T<sub>f</sub></span><span>K<sub>term</sub></span></span></div>
+<div class="eq r"><b>3. Substituir na Eq. 3 (Modelo B):</b> p<sub>t</sub> = (L<sub>f</sub>D + R<sub>f</sub>)v<sub>f</sub> = <span class="f"><span>(L<sub>f</sub>D + R<sub>f</sub>)G(D)T<sub>f</sub></span><span>K<sub>term</sub></span></span></div>
+<div class="eq r"><b>4. Derivada da pressão:</b> Dp<sub>t</sub> = (L<sub>f</sub>D + R<sub>f</sub>)Dv<sub>f</sub></div>
+<p class="sm r">Dⁿ = <span class="f"><span>dⁿ</span><span>dtⁿ</span></span>. Cada passo é identidade das equações originais; nenhuma informação é perdida.</p>
+</section>
+
+<!-- Slide 11 - Eliminacao (passos 5 a 8) -->
+<section class="s">
+<div class="k r">Eliminação (passos 5 a 8)</div>
+<h1>Eliminação de v<sub>p</sub> e de x<sub>p</sub></h1>
+<div class="eq r"><b>5. Eq. 4 com a Eq. 3 (Modelo B):</b> A<sub>p</sub>v<sub>p</sub> = C<sub>f</sub>Dp<sub>t</sub> + v<sub>f</sub> = D<sub>B</sub>(D)v<sub>f</sub>, com D<sub>B</sub>(D) = 1 + C<sub>f</sub>D(L<sub>f</sub>D + R<sub>f</sub>)</div>
+<div class="eq r"><b>6. Derivar a Eq. 1 (com Dx<sub>p</sub> = v<sub>p</sub>):</b> Q(D)v<sub>p</sub> = K<sub>e</sub>Dv<sub>c</sub> − A<sub>p</sub>Dp<sub>t</sub>, com Q(D) = M<sub>p</sub>D² + B<sub>p</sub>D + K<sub>p</sub></div>
+<div class="eq r"><b>7. Substituir v<sub>p</sub> e p<sub>t</sub> e multiplicar por A<sub>p</sub>:</b> N<sub>B</sub>(D)v<sub>f</sub> = A<sub>p</sub>K<sub>e</sub>Dv<sub>c</sub>, com N<sub>B</sub>(D) = Q(D)D<sub>B</sub>(D) + A<sub>p</sub>²D(L<sub>f</sub>D + R<sub>f</sub>)</div>
+<div class="eq r"><b>8. Substituir v<sub>f</sub> = <span class="f"><span>G(D)T<sub>f</sub></span><span>K<sub>term</sub></span></span>:</b> G(D)N<sub>B</sub>(D)T<sub>f</sub> = d<sub>1</sub>Dv<sub>c</sub>, com d<sub>1</sub> = K<sub>e</sub>A<sub>p</sub>K<sub>term</sub></div>
+<p class="sm r">A eliminação de x<sub>p</sub> ocorre no passo 6: derivar a equação mecânica troca K<sub>p</sub>x<sub>p</sub> por K<sub>p</sub>v<sub>p</sub>.</p>
+</section>
+
+<!-- Slide 12 - Coeficientes -->
+<section class="s">
+<div class="k r">Coeficientes</div>
+<h1>Expansão de N<sub>B</sub>(D) e coeficientes oficiais</h1>
+<div class="two">
+<div class="col r" style="--a:#22d3ee">
+<div class="eq">N<sub>B</sub>(D) = n<sub>4</sub>D⁴ + n<sub>3</sub>D³ + n<sub>2</sub>D² + n<sub>1</sub>D + n<sub>0</sub></div>
+<div class="eq">n<sub>4</sub> = M<sub>p</sub>C<sub>f</sub>L<sub>f</sub> ; n<sub>3</sub> = M<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + B<sub>p</sub>C<sub>f</sub>L<sub>f</sub><br>n<sub>2</sub> = M<sub>p</sub> + B<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + K<sub>p</sub>C<sub>f</sub>L<sub>f</sub> + A<sub>p</sub>²L<sub>f</sub><br>n<sub>1</sub> = B<sub>p</sub> + K<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + A<sub>p</sub>²R<sub>f</sub> ; n<sub>0</sub> = K<sub>p</sub></div>
+<div class="eq">c<sub>k</sub> = C<sub>th</sub>n<sub>k−1</sub> + H<sub>r</sub>n<sub>k</sub> (produto por G(D))</div>
+</div>
+<div class="col r" style="--a:#f472b6">
+{{TABELA_COEF}}
+</div></div>
+<div class="eq r" style="text-align:center">c<sub>5</sub><span class="f"><span>d<sup>5</sup>T<sub>f</sub>(t)</span><span>dt<sup>5</sup></span></span> + c<sub>4</sub><span class="f"><span>d<sup>4</sup>T<sub>f</sub>(t)</span><span>dt<sup>4</sup></span></span> + c<sub>3</sub><span class="f"><span>d<sup>3</sup>T<sub>f</sub>(t)</span><span>dt<sup>3</sup></span></span> + c<sub>2</sub><span class="f"><span>d<sup>2</sup>T<sub>f</sub>(t)</span><span>dt<sup>2</sup></span></span> + c<sub>1</sub><span class="f"><span>dT<sub>f</sub>(t)</span><span>dt</span></span> + c<sub>0</sub>T<sub>f</sub>(t) = d<sub>1</sub><span class="f"><span>dv<sub>c</sub>(t)</span><span>dt</span></span></div>
+</section>
+
+<!-- Slide 13 - Transformada de Laplace -->
+<section class="s">
+<div class="k r">Transformada de Laplace</div>
+<h1>Laplace unilateral com condições iniciais nulas</h1>
+<div class="eq r"><b>Hipótese:</b> L{f<sup>(n)</sup>(t)} = s<sup>n</sup>F(s), com todas as condições iniciais nulas</div>
+<div class="eq r">L{T<sub>f</sub>'} = sT<sub>f</sub>(s) ; L{T<sub>f</sub><sup>(5)</sup>} = s⁵T<sub>f</sub>(s) ; L{v<sub>c</sub>'} = sV<sub>c</sub>(s)</div>
+<div class="eq r">(c<sub>5</sub>s⁵ + c<sub>4</sub>s⁴ + c<sub>3</sub>s³ + c<sub>2</sub>s² + c<sub>1</sub>s + c<sub>0</sub>)T<sub>f</sub>(s) = d<sub>1</sub>sV<sub>c</sub>(s)</div>
+<p class="box">H(s) = <span class="f"><span>T<sub>f</sub>(s)</span><span>V<sub>c</sub>(s)</span></span> = <span class="f"><span>d<sub>1</sub>s</span><span>c<sub>5</sub>s⁵ + c<sub>4</sub>s⁴ + c<sub>3</sub>s³ + c<sub>2</sub>s² + c<sub>1</sub>s + c<sub>0</sub></span></span></p>
+<div class="eq r"><b>Numérico (Modelo B):</b> H(s) = <span class="f"><span>62,5 s</span><span>0,0048 s⁵ + 0,14792 s⁴ + 18,80258 s³ + 227,117075 s² + 15033,645 s + 2250</span></span></div>
+<p class="sm r">Numerador com fator s, logo H(0) = 0: tensão contínua não altera T<sub>f</sub> em regime. Denominador de grau 5 e numerador de grau 1: H(s) é estritamente própria.</p>
+</section>
+
+<!-- Slide 14 - Analisador (Parte II) -->
+<section class="s" id="s14">
+<div class="k r">Parte II: recurso computacional</div>
+<h1>Programa de análise de H(s), em execução</h1>
+<div class="two nonav">
+<div class="col r" style="--a:#22d3ee">
+<label class="sm" for="inN">Numerador N(s) (potências decrescentes)</label><input id="inN" class="in" value="62.5, 0">
+<label class="sm" for="inD">Denominador D(s)</label><input id="inD" class="in" value="0.0048, 0.14792, 18.80258, 227.117075, 15033.645, 2250">
+<label class="sm"><input type="checkbox" id="inC" checked> Assumir sistema causal</label>
+<div><button id="bRun" class="bt">Executar análise</button><button id="bRes" class="bt">Restaurar Projeto 5</button><button id="bClr" class="bt">Limpar</button></div>
+<div id="msg" role="status" aria-live="polite" class="sm"></div>
+<div id="out" class="sm"></div>
+</div>
+<div class="col r" style="--a:#34d399"><canvas id="cv" width="640" height="420" role="img" aria-label="Plano s com polos, zeros e RDC (Região de Convergência)"></canvas>
+</div>
+<details><summary>Referência calculada por analise_polos_zeros.py (Python)</summary>{{TABELA_POLOS}}</details>
+</section>
+
+ <!-- Slide 15 - Plano s, causalidade, estabilidade e RDC -->
+<section class="s">
+<div class="k r">Plano s, causalidade, estabilidade e RDC</div>
+<h1>Região de convergência</h1>
+<div class="two">
+<div class="col r" style="--a:#34d399"><img class="plot" src="{{PLANO_S}}" alt="Plano s do Modelo B"><div class="src">Figura gerada por analise_polos_zeros.py (Modelo B)</div></div>
+<div class="col r" style="--a:#34d399"><ul class="pl">
+<li><b>Causalidade:</b> hipótese de realização física causal. Para função racional causal, a RDC fica à direita do polo mais à direita.</li>
+<li><b>RDC (Região de Convergência):</b> Re(s) &gt; −0,15, fronteira dada pelo polo térmico −<span class="f"><span>H<sub>r</sub></span><span>C<sub>th</sub></span></span>.</li>
+<li><b>Estabilidade:</b> todos os polos têm Re(s) &lt; 0 e a RDC contém o eixo jω, logo BIBO estável.</li>
+<li><b>Limite:</b> a RDC depende da hipótese de causalidade. Os polos, sozinhos, não a determinam.</li>
+</ul>
+<p class="sm"><b>Pendências:</b> Modelo B (Eq. 3 sem A<sub>p</sub>) e unidade de K<sub>term</sub>, a confirmar com o professor.</p>
+</div></div>
+</section>
+
+<!-- Anexo A1 - Hipoteses e limitacoes -->
+<section class="s anexo">
+<div class="k r">Anexo A1 · Hipóteses e limitações</div>
+<h1>Hipóteses do modelo</h1>
+<ul class="pl r">
+<li>Linearização em torno de um estado de operação; pequenas variações de pressão e volume.</li>
+<li>Complacência adiabática, C<sub>f</sub> = <span class="f"><span>V<sub>0</sub></span><span>γP<sub>0</sub></span></span>.</li>
+<li>Parâmetros constantes; força elétrica proporcional à tensão (K<sub>e</sub>).</li>
+<li>Condições iniciais nulas (Laplace) e sinal de entrada causal a partir de t = 0.</li>
+<li>Térmico linearizado, sem temperatura ambiente, como na equação do enunciado.</li>
+<li><b>Limitações:</b> forma da Eq. 3 e unidade de K<sub>term</sub> pendentes de confirmação. Os parâmetros são valores adotados pelo enunciado, não medidos.</li>
+</ul>
+</section>
+
+<!-- Anexo A2 - Modelo A x Modelo B -->
+<section class="s anexo">
+<div class="k r">Anexo A2 · Modelo A × Modelo B</div>
+<h1>Consequências da escolha da Eq. 3</h1>
+{{TABELA_AB}}
+<ul class="pl r" style="margin-top:.6em">
+<li>O ganho d<sub>1</sub> difere pelo fator 1/A<sub>p</sub> = 20 (3,125 no Modelo A; 62,5 no Modelo B).</li>
+<li>Modelo B: polos complexos da coluna, em torno de −12 ± j48,6. Modelo A: polos reais da coluna, em −7,6 e −16,4.</li>
+<li>Ambos os modelos são estáveis, com RDC Re(s) &gt; −0,15. A escolha altera coeficientes e modos, não a estabilidade.</li>
+</ul>
+</section>
+
+<script>
+const S=[...document.querySelectorAll('.s')];let i=0;
+const bar=document.getElementById('bar'),nn=document.getElementById('n');
+function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=(i>14?'Apêndice '+(i-14)+'/2':(i+1)+' / 15')+'  ·  ← → F'}
+
+const ign=t=>t.closest&&t.closest('button,a,input,textarea,select,summary,details,canvas,label,.nonav');
+document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,textarea,select'))return;
+if(e.key==='f'||e.key==='F'){tfs();return}
+if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}});
+document.addEventListener('click',e=>{if(ign(e.target))return;go(e.clientX>innerWidth/2?i+1:i-1)});
+function tfs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+pv.onclick=()=>go(i-1);nx.onclick=()=>go(i+1);fs.onclick=tfs;
+/* ---- analisador (porte JS de analise_sistemas.py) ---- */
+const C={add:(a,b)=>[a[0]+b[0],a[1]+b[1]],sub:(a,b)=>[a[0]-b[0],a[1]-b[1]],mul:(a,b)=>[a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]],div:(a,b)=>{const d=b[0]*b[0]+b[1]*b[1];return[(a[0]*b[0]+a[1]*b[1])/d,(a[1]*b[0]-a[0]*b[1])/d]},abs:a=>Math.hypot(a[0],a[1])};
+function roots(c){const n=c.length-1;if(n<1)return[];const a=c.map(x=>x/c[0]);const R=1+Math.max(...a.slice(1).map(Math.abs));
+let z=[...Array(n)].map((_,k)=>[R*.7*Math.cos(2*Math.PI*k/n+.4),R*.7*Math.sin(2*Math.PI*k/n+.4)]);
+const P=x=>a.reduce((s,k)=>C.add(C.mul(s,x),[k,0]),[0,0]);
+for(let it=0;it<500;it++){let m=0;z=z.map((zi,k)=>{let d=[1,0];z.forEach((zj,j)=>{if(j!==k)d=C.mul(d,C.sub(zi,zj))});const dz=C.div(P(zi),d);m=Math.max(m,C.abs(dz));return C.sub(zi,dz)});if(m<1e-13*R)break}
+return z.map(x=>[Math.abs(x[0])<1e-9?0:x[0],Math.abs(x[1])<1e-9?0:x[1]])}
+function parse(t,nm){const p=t.trim().split(/[\s,;\[\]]+/).filter(Boolean);if(!p.length)throw nm+': campo vazio.';return p.map(s=>{const v=Number(s.replace(',','.'));if(!isFinite(v))throw nm+": '"+s+"' não é um número válido.";return v})}
+const trim=c=>{let k=0;while(k<c.length&&c[k]===0)k++;return c.slice(k)};
+function run(){msg.textContent='';out.innerHTML='';const g=cv.getContext('2d');
+try{const n=trim(parse(inN.value,'Numerador')),d=trim(parse(inD.value,'Denominador'));
+if(!d.length)throw'Denominador nulo: divisão por zero.';if(d.length<2)throw'Denominador constante: não há polos.';if(!n.length)throw'Numerador nulo: H(s)=0.';
+const zr=n.length>1?roots(n):[];const pl=roots(d);let pe=[...pl],ze=[...zr];
+zr.forEach(z=>{const k=pe.findIndex(p=>C.abs(C.sub(z,p))<=1e-6*Math.max(1,C.abs(p)));if(k>=0){pe.splice(k,1);ze.splice(ze.findIndex(q=>q===z),1)}});
+const cs=inC.checked,sig=pe.length?Math.max(...pe.map(p=>p[0])):-Infinity,esc=Math.max(1,...pe.map(C.abs)),tol=1e-6*esc;
+const eixo=pe.filter(p=>Math.abs(p[0])<=tol),dir=pe.filter(p=>p[0]>tol);let est,col,ex;
+const rep=eixo.some((p,a)=>eixo.some((q,b)=>a!==b&&C.abs(C.sub(p,q))<=1e-4*Math.max(1,C.abs(p))));
+if(!cs){est='inconclusivo';col='#fbbf24';ex='Sem hipótese causal a RDC não é fixada pelos polos.'}
+else if(n.length>d.length){est='inconclusivo';col='#fbbf24';ex='H(s) imprópria (grau N > grau D).'}
+else if(dir.length){est='instável';col='#f87171';ex='Polo com Re(s) > 0.'}
+else if(eixo.length){if(rep){est='instável';col='#f87171';ex='Polo repetido sobre jω.'}else{est='marginalmente estável';col='#fbbf24';ex='Polos simples sobre jω; não é BIBO estável.'}}
+else{est='estável';col='#34d399';ex='Todos Re(s) < 0; RDC contém jω (BIBO estável).'}
+const f=p=>p[0].toFixed(6)*1+(Math.abs(p[1])<1e-9?'':(p[1]<0?'−':'+')+Math.abs(p[1]).toFixed(6)*1+'j');
+out.innerHTML='<p><b>Ordem:</b> N '+(n.length-1)+', D '+(d.length-1)+'</p><p><b>Zeros:</b> '+(zr.map(f).join('; ')||'nenhum')+'</p><p><b>Polos:</b> '+[...pl].sort((a,b)=>b[0]-a[0]).map(f).join('; ')+'</p><p><b>RDC (Região de Convergência):</b> '+(cs?'Re(s) &gt; '+sig.toFixed(6)*1:'depende da RDC escolhida')+'</p><p><span class="badge" style="background:'+col+'">'+est.toUpperCase()+'</span> '+ex+'</p>';
+draw(g,pl,zr,cs?sig:null)}catch(e){msg.innerHTML='<span class="badge" style="background:#f87171">Erro</span> '+e;g.clearRect(0,0,cv.width,cv.height)}}
+function draw(g,pl,zr,sig){const W=cv.width,H=cv.height,all=[...pl,...zr],xr=Math.max(1,...all.map(p=>Math.abs(p[0])))*1.3,yr=Math.max(1,...all.map(p=>Math.abs(p[1])))*1.3;
+const X=x=>(x+xr)/(2*xr)*W,Y=y=>H/2-y/yr*H/2;g.clearRect(0,0,W,H);g.fillStyle='#dbeafe55';g.fillRect(0,0,X(0),H);g.fillStyle='#fee2e255';g.fillRect(X(0),0,W-X(0),H);
+if(sig!==null){g.fillStyle='#22d3ee55';g.fillRect(X(sig),0,W-X(sig),H);g.strokeStyle='#0891b2';g.setLineDash([6,4]);g.beginPath();g.moveTo(X(sig),0);g.lineTo(X(sig),H);g.stroke();g.setLineDash([])}
+g.strokeStyle='#000';g.lineWidth=1;g.beginPath();g.moveTo(0,Y(0));g.lineTo(W,Y(0));g.moveTo(X(0),0);g.lineTo(X(0),H);g.stroke();
+g.font='13px sans-serif';g.fillStyle='#1d4ed8';g.fillText('semiplano esquerdo',8,16);g.fillStyle='#b91c1c';g.fillText('semiplano direito',W-130,16);
+if(sig!==null){g.fillStyle='#0e7490';g.fillText('RDC: Re(s) > '+(sig.toFixed(4)*1),Math.min(X(sig)+6,W-150),H-8)}
+g.lineWidth=2.5;g.strokeStyle='#db2777';pl.forEach(p=>{const x=X(p[0]),y=Y(p[1]);g.beginPath();g.moveTo(x-7,y-7);g.lineTo(x+7,y+7);g.moveTo(x+7,y-7);g.lineTo(x-7,y+7);g.stroke();g.fillStyle='#111';g.font='11px sans-serif';g.fillText(p[0].toFixed(2)+(p[1]?(p[1]<0?'−':'+')+Math.abs(p[1]).toFixed(2)+'j':''),x+8,y-8)});
+g.strokeStyle='#d97706';zr.forEach(z=>{g.beginPath();g.arc(X(z[0]),Y(z[1]),7,0,7);g.stroke()});
+g.font='12px sans-serif';g.fillStyle='#db2777';g.fillText('× polos',8,H-24);g.fillStyle='#d97706';g.fillText('○ zeros',8,H-8)}
+bRun.onclick=run;inN.oninput=inD.oninput=inC.onchange=run;
+bRes.onclick=()=>{inN.value='62.5, 0';inD.value='0.0048, 0.14792, 18.80258, 227.117075, 15033.645, 2250';inC.checked=true;run()};
+bClr.onclick=()=>{inN.value='';inD.value='';run()};
+run();
+go(0);
+</script>
+</body>
+</html>

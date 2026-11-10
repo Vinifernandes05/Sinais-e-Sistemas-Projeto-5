@@ -1,0 +1,52 @@
+{
+  "modelo": "B",
+  "numerador": [
+    62.5,
+    0.0
+  ],
+  "denominador": [
+    0.0048000000000000004,
+    0.14792,
+    18.802579999999995,
+    227.11707500000003,
+    15033.645,
+    2250.0
+  ],
+  "zeros": [
+    [
+      0.0,
+      0.0
+    ]
+  ],
+  "polos": [
+    [
+      -11.968649116300188,
+      48.57767269094737
+    ],
+    [
+      -11.968649116300188,
+      -48.57767269094737
+    ],
+    [
+      -3.3646842170331235,
+      35.173304108728466
+    ],
+    [
+      -3.3646842170331235,
+      -35.173304108728466
+    ],
+    [
+      -0.14999999999999994,
+      0.0
+    ]
+  ],
+  "sigma_max": -0.14999999999999994,
+  "estabilidade": "BIBO estável (todos os polos com Re(s) < 0; a ROC contém o eixo jω)",
+  "causalidade": "causal (hipótese de realização física); H(s) estritamente própria",
+  "roc": "Re(s) > -0.15",
+  "residuo_relativo_max": 2.01651941025799e-16,
+  "conferencia_literal": {
+    "erro_relativo_max_denominador": 1.2514122696588977e-16,
+    "erro_relativo_d1": 0.0
+  }
+}
