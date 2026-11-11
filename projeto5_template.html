@@ -173,6 +173,31 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div>
 <div class="col r" style="--a:#22d3ee"><img src="{{COMPRESSOR}}" alt="Compressor linear eletrodinâmico"><div class="src">Fonte: boreas-cryogenics.com</div></div>
 </div>
+<details class="r" style="margin-top:1em">
+<summary>Legendas das forças, constantes e variáveis (Eq. 1)</summary>
+<p style="margin-top:.6em"><b>As Forças (F):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>F<sub>e</sub> (Força elétrica):</b> força motriz gerada pelo motor linear (interação entre a “Moving-coil” e o “Permanent magnet”). É o que empurra o pistão.</li>
+<li><b>F<sub>p</sub> (Força de pressão):</b> força de resistência exercida pelo gás sendo comprimido dentro do cilindro (“Cylinder”).</li>
+<li><b>F<sub>b</sub> (Força de amortecimento):</b> perdas por atrito viscoso e outras resistências mecânicas associadas ao movimento do pistão.</li>
+<li><b>F<sub>k</sub> (Força elástica):</b> força de retorno exercida pelas molas (“Flexure springs”), que tentam trazer o pistão à posição de repouso.</li>
+<li><b>F<sub>i</sub> (Força inercial):</b> força resultante efetiva que causa a aceleração da massa do sistema.</li>
+</ul>
+<p style="margin-top:.8em"><b>Constantes e Parâmetros Físicos:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>M<sub>p</sub>:</b> massa do pistão.</li>
+<li><b>K<sub>e</sub>:</b> constante elétrica do atuador.</li>
+<li><b>A<sub>p</sub>:</b> área da seção transversal do pistão.</li>
+<li><b>B<sub>p</sub>:</b> coeficiente de amortecimento viscoso.</li>
+<li><b>K<sub>p</sub>:</b> constante elástica das molas.</li>
+</ul>
+<p style="margin-top:.8em"><b>Variáveis do Sistema:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>x<sub>p</sub>, v<sub>p</sub>, dv<sub>p</sub>/dt:</b> posição, velocidade e aceleração do pistão.</li>
+<li><b>v<sub>c</sub>:</b> tensão elétrica (sinal de controle).</li>
+<li><b>p<sub>t</sub>:</b> pressão transitória no cilindro.</li>
+</ul>
+</details>
 </section>
 
 <!-- Slide 7 - Eq. 2 -->
@@ -203,6 +228,23 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <tr><td>B (proposto)</td><td>Pa</td><td>p<sub>t</sub>: Pa</td><td>sim</td></tr></table>
 <p class="sm" style="margin-top:.6em">Só o Modelo B reproduz os coeficientes oficiais (slide 12). A escolha depende de confirmação do professor.</p>
 </div></div>
+<details class="r" style="margin-top:1em">
+<summary>Legendas das constantes e variáveis (Eq. 3)</summary>
+<p style="margin-top:.6em"><b>Novas Constantes e Parâmetros Físicos:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>m:</b> massa do fluido estritamente contida dentro do tubo.</li>
+<li><b>ρ (rho):</b> densidade do fluido.</li>
+<li><b>A<sub>t</sub>:</b> área da seção transversal do tubo. (Nota: diferente de A<sub>p</sub>, área do pistão.)</li>
+<li><b>ℓ:</b> comprimento do tubo.</li>
+<li><b>R<sub>f</sub>:</b> resistência fluídica (perda de carga/atrito viscoso do fluido contra as paredes).</li>
+<li><b>L<sub>f</sub>:</b> inércia fluídica (“indutância” acústica/fluídica), L<sub>f</sub> = ρ ℓ / A<sub>t</sub> (kg/m^4).</li>
+</ul>
+<p style="margin-top:.8em"><b>Novas Variáveis:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>v<sub>f</sub>:</b> vazão volumétrica do fluido (velocidade de escoamento).</li>
+<li><b>dv<sub>f</sub>/dt:</b> taxa de variação da vazão no tempo (aceleração do fluido).</li>
+</ul>
+</details>
 </section>
 
 <!-- Slide 9 - Eq. 4 -->
@@ -219,6 +261,22 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div>
 <div class="col r" style="--a:#a78bfa"><img src="{{COLUNA_HELIO}}" alt="Coluna de gás hélio no tubo"><div class="src">Fonte: rixindustries.com</div></div>
 </div>
+<details class="r" style="margin-top:1em">
+<summary>Legendas das variáveis e constantes (Eq. 4)</summary>
+<p style="margin-top:.6em"><b>Novas Variáveis (Dinâmica de Fluidos):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>Q<sub>entra</sub>:</b> vazão volumétrica que entra no sistema, impulsionada pelo movimento do pistão (A<sub>p</sub> v<sub>p</sub>).</li>
+<li><b>Q<sub>sai</sub>:</b> vazão volumétrica que sai em direção ao restante do sistema acústico/tubo (v<sub>f</sub>).</li>
+<li><b>dp<sub>t</sub>/dt:</b> taxa de variação da pressão no tempo (quão rápido a pressão aumenta ou diminui).</li>
+</ul>
+<p style="margin-top:.8em"><b>Novas Constantes e Parâmetros (Termodinâmicos):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>C<sub>f</sub>:</b> complacência fluídica (capacitância/mola pneumática), indica o quanto o gás cede sob pressão (m^5/N).</li>
+<li><b>V<sub>0</sub>:</b> volume inicial/médio da câmara de gás.</li>
+<li><b>P<sub>0</sub>:</b> pressão estática (pressão média de operação).</li>
+<li><b>γ (gamma):</b> coeficiente da lei adiabática (propriedade térmica do gás).</li>
+</ul>
+</details>
 </section>
 
 <!-- Slide 10 - Eq. 5 -->
@@ -234,6 +292,24 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div>
 <div class="col r" style="--a:#fbbf24"><img src="{{REGENERADOR}}" alt="Regenerador térmico poroso"><div class="src">Fonte: satnow.com</div></div>
 </div>
+<details class="r" style="margin-top:1em">
+<summary>Legendas das variáveis e constantes (Eq. 5)</summary>
+<p style="margin-top:.6em"><b>Novas Variáveis (Térmicas):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>T<sub>f</sub>:</b> temperatura do fluido.</li>
+<li><b>dT<sub>f</sub>/dt:</b> taxa de variação temporal da temperatura do fluido.</li>
+<li><b>Φ_entra:</b> fluxo de calor (potência térmica) que entra no sistema.</li>
+<li><b>Φ_sai:</b> fluxo de calor que sai do sistema.</li>
+<li><b>Φ_perda:</b> fluxo de calor dissipado ou perdido.</li>
+</ul>
+<p style="margin-top:.8em"><b>Novas Constantes e Parâmetros:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>C<sub>th</sub>:</b> capacidade térmica (parâmetro inercial térmico do regenerador).</li>
+<li><b>K<sub>term</sub>:</b> constante térmica que acopla o fluxo de calor efetivo (Φ_entra - Φ_sai) ao escoamento do fluido (J/m^3 ou W/(m^3/s)).</li>
+<li><b>H<sub>r</sub>:</b> coeficiente de perdas térmicas (dissipação linear baseada em T<sub>f</sub>, sem temperatura ambiente).</li>
+</ul>
+</details>
+</section>
 </section>
 
 <!-- Slide 11 - Eliminacao (passos 1 a 4) -->
@@ -245,6 +321,24 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <div class="eq r"><b>3. Substituir na Eq. 3 (Modelo B):</b> p<sub>t</sub> = (L<sub>f</sub>D + R<sub>f</sub>)v<sub>f</sub> = <span class="f"><span>(L<sub>f</sub>D + R<sub>f</sub>)G(D)T<sub>f</sub></span><span>K<sub>term</sub></span></span></div>
 <div class="eq r"><b>4. Derivada da pressão:</b> Dp<sub>t</sub> = (L<sub>f</sub>D + R<sub>f</sub>)Dv<sub>f</sub></div>
 <p class="sm r">Dⁿ = <span class="f"><span>dⁿ</span><span>dtⁿ</span></span>. Cada passo é identidade das equações originais; nenhuma informação é perdida.</p>
+<details class="r" style="margin-top:1em">
+<summary>Legendas do operador D e agrupamentos (passos 1 a 4)</summary>
+<p style="margin-top:.6em"><b>Novo Operador:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>D:</b> operador de derivação; representa a derivada em relação ao tempo, substituindo a notação d/dt.</li>
+<li><b>D^n:</b> derivada de ordem n, equivalente a d^n/dt^n.</li>
+</ul>
+<p style="margin-top:.8em"><b>Novas Funções / Agrupamentos:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>G(D):</b> agrupamento matemático (polinómio em D) que simplifica a equação térmica, G(D) = C<sub>th</sub> D + H<sub>r</sub>.</li>
+</ul>
+<p style="margin-top:.8em"><b>Novas Representações para Termos Existentes:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>D v<sub>f</sub>:</b> derivada da vazão do fluido no tempo (dv<sub>f</sub>/dt) usando o operador D.</li>
+<li><b>D p<sub>t</sub>:</b> derivada da pressão no tempo (dp<sub>t</sub>/dt) usando o operador D.</li>
+</ul>
+</details>
+</section>
 </section>
 
 <!-- Slide 12 - Eliminacao (passos 5 a 8) -->
@@ -256,6 +350,24 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <div class="eq r"><b>7. Substituir v<sub>p</sub> e p<sub>t</sub> e multiplicar por A<sub>p</sub>:</b> N<sub>B</sub>(D)v<sub>f</sub> = A<sub>p</sub>K<sub>e</sub>Dv<sub>c</sub>, com N<sub>B</sub>(D) = Q(D)D<sub>B</sub>(D) + A<sub>p</sub>²D(L<sub>f</sub>D + R<sub>f</sub>)</div>
 <div class="eq r"><b>8. Substituir v<sub>f</sub> = <span class="f"><span>G(D)T<sub>f</sub></span><span>K<sub>term</sub></span></span>:</b> G(D)N<sub>B</sub>(D)T<sub>f</sub> = d<sub>1</sub>Dv<sub>c</sub>, com d<sub>1</sub> = K<sub>e</sub>A<sub>p</sub>K<sub>term</sub></div>
 <p class="sm r">A eliminação de x<sub>p</sub> ocorre no passo 6: derivar a equação mecânica troca K<sub>p</sub>x<sub>p</sub> por K<sub>p</sub>v<sub>p</sub>.</p>
+<details class="r" style="margin-top:1em">
+<summary>Legendas dos agrupamentos e constantes (passos 5 a 8)</summary>
+<p style="margin-top:.6em"><b>Novos Agrupamentos Matemáticos (Polinómios em D):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>D_B(D):</b> agrupa a dinâmica fluídica/termodinâmica: 1 + C<sub>f</sub> D (L<sub>f</sub> D + R<sub>f</sub>).</li>
+<li><b>Q(D):</b> agrupa a dinâmica mecânica do pistão (inércia, amortecimento, elasticidade): M<sub>p</sub> D^2 + B<sub>p</sub> D + K<sub>p</sub>.</li>
+<li><b>N_B(D):</b> polinómio de ordem superior que funde dinâmica mecânica e fluídica: Q(D) D_B(D) + A<sub>p</sub>^2 D (L<sub>f</sub> D + R<sub>f</sub>).</li>
+</ul>
+<p style="margin-top:.8em"><b>Novas Constantes Agrupadas:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>d<sub>1</sub>:</b> macro-constante de acoplamento dos domínios: K<sub>e</sub> A<sub>p</sub> K<sub>term</sub>.</li>
+</ul>
+<p style="margin-top:.8em"><b>Nova Nomenclatura de Variável:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>v<sub>o</sub>:</b> a partir do Passo 7, a entrada elétrica v<sub>c</sub> passa a ser escrita como v<sub>o</sub>; representa o mesmo sinal de excitação elétrica.</li>
+</ul>
+</details>
+</section>
 </section>
 
 <!-- Slide 13 - Coeficientes -->
@@ -273,6 +385,23 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div></div>
 <p class="r" style="margin:1.6em 0 1em;font-size:1.05em;font-weight:600">Equação final da relação entre a entrada v<sub>c</sub>(t) e a temperatura de saída T<sub>f</sub>(t):</p>
 <p class="box" style="text-align:center;font-size:1.05em;margin:0 0 2em;white-space:nowrap;display:block">c<sub>5</sub><span class="f"><span>d<sup>5</sup>T<sub>f</sub>(t)</span><span>dt<sup>5</sup></span></span> + c<sub>4</sub><span class="f"><span>d<sup>4</sup>T<sub>f</sub>(t)</span><span>dt<sup>4</sup></span></span> + c<sub>3</sub><span class="f"><span>d<sup>3</sup>T<sub>f</sub>(t)</span><span>dt<sup>3</sup></span></span> + c<sub>2</sub><span class="f"><span>d<sup>2</sup>T<sub>f</sub>(t)</span><span>dt<sup>2</sup></span></span> + c<sub>1</sub><span class="f"><span>dT<sub>f</sub>(t)</span><span>dt</span></span> + c<sub>0</sub>T<sub>f</sub>(t) = d<sub>1</sub><span class="f"><span>dv<sub>c</sub>(t)</span><span>dt</span></span></p>
+<details class="r" style="margin-top:1em">
+<summary>Legendas dos coeficientes intermédios e finais (slide Coeficientes)</summary>
+<p style="margin-top:.6em"><b>Novos Coeficientes Intermédios (n_k):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>n<sub>0</sub>, n<sub>1</sub>, n<sub>2</sub>, n<sub>3</sub>, n<sub>4</sub>:</b> coeficientes resultantes da expansão algébrica de N_B(D); cada um agrupa blocos de constantes físicas (M_p, C_f, L_f, B_p, R_f, etc.).</li>
+</ul>
+<p style="margin-top:.8em"><b>Novos Coeficientes Finais (c_k):</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, c<sub>3</sub>, c<sub>4</sub>, c<sub>5</sub>:</b> coeficientes macroscópicos globais que multiplicam as derivadas na equação final de 5ª ordem.</li>
+<li>Resultam da interação dos n_k com os parâmetros térmicos (C<sub>th</sub>, H<sub>r</sub>): c_k = C<sub>th</sub> n_{k-1} + H<sub>r</sub> n_k.</li>
+<li>Valores numéricos (Modelo B): c<sub>5</sub> = 0,0048, c<sub>0</sub> = 2250, d<sub>1</sub> = 62,5.</li>
+</ul>
+<p style="margin-top:.8em"><b>Nova Notação de Dependência Temporal:</b></p>
+<ul class="pl" style="margin-top:.4em">
+<li><b>T<sub>f</sub>(t) e v<sub>c</sub>(t):</b> temperatura do fluido e entrada de tensão elétrica, escritas com dependência temporal explícita (t) na equação final.</li>
+</ul>
+</details>
 </section>
 
 <!-- Slide 14 - Transformada de Laplace -->
