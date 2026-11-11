@@ -12,7 +12,7 @@ body::before{content:"";position:fixed;inset:-50%;background:conic-gradient(#22d
 @keyframes spin{to{transform:rotate(360deg)}}
 #bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#22d3ee,#a78bfa,#f472b6);transition:width .5s;z-index:5}
 #n{position:fixed;bottom:8px;right:14px;font-size:13px;opacity:.7;z-index:5}
-.s{position:absolute;inset:0;display:none;flex-direction:column;padding:4vh 5vw;overflow:auto}
+.s{position:absolute;inset:0;display:none;flex-direction:column;padding:3vh 5vw 14vh;overflow:auto}
 .s>:first-child{margin-top:auto}.s>:last-child{margin-bottom:auto}
 .s.on{display:flex;animation:fx .6s ease}
 @keyframes fx{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:none}}
@@ -37,7 +37,7 @@ li::before{content:"▸ ";color:#22d3ee}
 .sm{font-size:.85em;opacity:.9}
 .note{border:1px dashed #fbbf24;border-radius:12px;padding:.5em .8em;margin-top:.6em;background:rgba(251,191,36,.08);font-size:.9em}
 small{opacity:.8;font-size:.85em}
-.eq{background:rgba(0,0,0,.35);border-left:4px solid var(--a,#f472b6);border-radius:12px;padding:.45em .75em;margin:.35em 0;font-size:.92em;overflow-x:auto;font-family:"Cambria Math","STIX Two Math","Latin Modern Math","Times New Roman",serif;font-style:italic}
+.eq{background:rgba(0,0,0,.35);border-left:4px solid var(--a,#f472b6);border-radius:12px;padding:.9em 1.2em;margin:.8em 0;font-size:1.25em;overflow-x:visible;word-wrap:break-word;font-family:"Cambria Math","STIX Two Math","Latin Modern Math","Times New Roman",serif;font-style:italic}
 .eq b,.quiz .eq{font-style:normal;font-family:"Segoe UI",system-ui,Arial,sans-serif}
 .f{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;vertical-align:middle;margin:0 .2em}
 .f>span{display:block;padding:.05em .3em;line-height:1.3}
@@ -60,9 +60,9 @@ th{color:#fbbf24}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8em;margin:.6em 0}
 .subsystems{gap:.8em;margin:1em 0 1.2em}
 .subsystems .c{display:flex;flex-direction:column;gap:.4em;padding:.65em .85em;line-height:1.35;font-size:.95em}
-.subsystems .c b{display:block;margin-bottom:.25em;line-height:1.2;color:#fff}
-.subsystems .states{display:inline-flex;gap:.3em;align-items:center;white-space:nowrap;margin-top:.2em;font-size:.95em;font-style:italic}
-.subsystems + .flow{margin:1.2em 0 .8em}
+.subsystems .c b{display:block;margin-bottom:.3em;line-height:1.2;color:#fff;font-size:1.18em}
+.subsystems .states{display:inline-flex;gap:.3em;align-items:center;white-space:nowrap;margin-top:auto;align-self:flex-start;font-size:.95em;font-style:italic}
+.subsystems + .flow{margin:2.2em 0 1em}
 .subsystems + .flow + p{margin-top:.8em}
 .plot{display:block;max-width:100%;max-height:50vh;margin:auto;border-radius:12px;background:#fff;padding:6px}
 details{margin-top:.4em;background:rgba(0,0,0,.25);border-radius:10px;padding:.35em .7em;font-size:.95em}
@@ -89,12 +89,32 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <section class="s">
 <div class="k r">Sinais e Sistemas · Projeto 5</div>
 <h1>Sistema de Refrigeração Criogênica por Pulso de Tubo para Sensores de Satélites Quânticos</h1>
-<p class="r">Modelagem da entrada <b>v<sub>c</sub>(t)</b> (tensão no compressor) até a saída <b>T<sub>f</sub>(t)</b> (temperatura na extremidade fria)</p>
-<div class="r" style="margin-top:.6em"><span class="k">Equipe</span>
+<p class="r">Modelagem da entrada <b>V<sub>c</sub>(t)</b> (tensão no compressor) até a saída <b>T<sub>f</sub>(t)</b> (temperatura na extremidade fria)</p>
+<div class="r" style="margin-top:2em"><span class="k">Professor</span>
+<div class="c" style="display:block;width:fit-content;margin-top:.6em">Artur Passos Dias Lima</div></div>
+<div class="r" style="margin-top:1.2em"><span class="k">Equipe</span>
 <div class="g5"><div class="c">Vinicius Fernandes</div><div class="c">Marcos Menezes</div><div class="c">Rafael Guerra</div><div class="c">Rian Dutra</div><div class="c">Leonardo Magalhães</div></div></div>
 </section>
 
-<!-- Slide 2 - Problema e objetivo -->
+<!-- Slide 2 - Sumario -->
+<section class="s">
+<div class="k r">Sumário</div>
+<h1>O que será abordado</h1>
+<ul class="r" style="display:flex;flex-direction:column;gap:.6em;margin-top:.8em;font-size:1.05em">
+<li>1. Problema e objetivo</li>
+<li>2. Subsistemas físicos — Compressor, Coluna de Hélio e Regenerador</li>
+<li>3. Variáveis e parâmetros oficiais</li>
+<li>4. Equações do sistema</li>
+<li>5. Eliminação das variáveis e Transformada de Laplace</li>
+<li>6. Coeficientes e Função de Transferência</li>
+<li>7. Zeros, Polos, RDC e Estabilidade BIBO</li>
+<li>8. Analisador computacional</li>
+<li>9. Modelo A × Modelo B</li>
+<li>10. Hipóteses e limitações</li>
+</ul>
+</section>
+
+<!-- Slide 3 - Problema e objetivo -->
 <section class="s">
 <div class="k r">Problema e objetivo</div>
 <h1>Qual é o problema?</h1>
@@ -107,12 +127,11 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </ul>
 <div class="r" style="text-align:center">
 <div class="flow"><div class="n" style="--a:#22d3ee">Tens&atilde;o<br><b>V<sub>c</sub>(t)</b></div><span class="arr">→</span><div class="n" style="--a:#a78bfa">Sistema de<br>refrigeração</div><span class="arr">→</span><div class="n" style="--a:#f472b6">Saída<br><b>T<sub>f</sub>(t)</b></div></div>
-<p style="margin-top:1.6em">Objetivo final</p>
 <span class="box" style="font-size:1.3em;margin-top:1em;display:inline-block">H(s) = <span class="f"><span>T<sub>f</sub>(s)</span><span>V<sub>c</sub>(s)</span></span></span>
 </div></div>
 </section>
 
-<!-- Slide 3 - Subsistemas fisicos -->
+<!-- Slide 4 - Subsistemas fisicos -->
 <section class="s">
 <div class="k r">Subsistemas físicos</div>
 <h1 style="margin-bottom:1em">Três subsistemas em cadeia</h1>
@@ -121,11 +140,11 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <div class="c" style="--a:#a78bfa"><b>2. Coluna de gás hélio</b>Ordem 2: inércia do fluxo e complacência do gás. <span class="states">Estados: <i>v<sub>f</sub></i>, <i>p<sub>t</sub></i></span></div>
 <div class="c" style="--a:#fbbf24"><b>3. Regenerador térmico poroso</b>Ordem 1: retém e transfere calor. <span class="states">Estado: <i>T<sub>f</sub></i></span></div>
 </div>
-<div class="flow r"><div class="n" style="--a:#22d3ee">Tens&atilde;o<br><small>V<sub>c</sub>(t)</small></div><span class="arr">→</span><div class="n" style="--a:#22d3ee">Compressor<br><small>x<sub>p</sub>, v<sub>p</sub></small></div><span class="arr">→</span><div class="n" style="--a:#a78bfa">Coluna de hélio<br><small>p<sub>t</sub>, v<sub>f</sub></small></div><span class="arr">→</span><div class="n" style="--a:#fbbf24">Regenerador<br><small>T<sub>f</sub>(t)</small></div></div>
-<p class="r" style="text-align:center">Ordem total <b>2 + 2 + 1 = 5</b>: cinco estados independentes, logo a EDO final é de quinta ordem.</p>
+<p class="r" style="text-align:center;margin-top:1.4em;font-size:1.0em">Ordem total <b style="font-size:1.1em">2 + 2 + 1 = 5</b>: cinco estados independentes, logo a EDO final é de quinta ordem.</p>
+<div class="flow r" style="font-size:1.25em;margin-top:3em"><div class="n" style="--a:#22d3ee;padding:.9em 1.3em">Tens&atilde;o<br><small>V<sub>c</sub>(t)</small></div><span class="arr">→</span><div class="n" style="--a:#22d3ee;padding:.9em 1.3em">Compressor<br><small>x<sub>p</sub>, v<sub>p</sub></small></div><span class="arr">→</span><div class="n" style="--a:#a78bfa;padding:.9em 1.3em">Coluna de hélio<br><small>p<sub>t</sub>, v<sub>f</sub></small></div><span class="arr">→</span><div class="n" style="--a:#fbbf24;padding:.9em 1.3em">Regenerador<br><small>T<sub>f</sub>(t)</small></div></div>
 </section>
 
-<!-- Slide 4 - Variaveis e parametros -->
+<!-- Slide 5 - Variaveis e parametros -->
 <section class="s">
 <div class="k r">Variáveis e parâmetros</div>
 <h1>Variáveis de estado e parâmetros oficiais</h1>
@@ -135,12 +154,12 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <tr><td>p<sub>t</sub>(t)</td><td>pressão acústica</td><td>Pa</td></tr>
 <tr><td>v<sub>f</sub>(t)</td><td>vazão volumétrica do gás (não é velocidade linear)</td><td>m³/s</td></tr>
 <tr><td>T<sub>f</sub>(t)</td><td>temperatura na extremidade fria</td><td>K</td></tr></table>
-<div class="g r">
+<div class="g r" style="margin-top:2em;font-size:0.9em">
 <div class="c">C<sub>th</sub> = 10 J/K</div><div class="c">H<sub>r</sub> = 1,5 W/K</div><div class="c">L<sub>f</sub> = 0,5 kg/m⁴</div><div class="c">R<sub>f</sub> = 12 Ns/m⁵</div><div class="c">C<sub>f</sub> = 8,0×10<sup>−4</sup> m⁵/N</div><div class="c">M<sub>p</sub> = 1,2 kg</div><div class="c">B<sub>p</sub> = 8 Ns/m</div><div class="c">K<sub>p</sub> = 1500 N/m</div><div class="c">A<sub>p</sub> = 0,05 m²</div><div class="c">K<sub>term</sub> = 250 K/(m³/s)</div><div class="c">K<sub>e</sub> = 5 N/V</div>
 </div>
 </section>
 
-<!-- Slide 5 - Eq. 1 -->
+<!-- Slide 6 - Eq. 1 -->
 <section class="s">
 <div class="k r">Eq. 1</div>
 <h1>Dinâmica eletromecânica do pistão</h1>
@@ -156,7 +175,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div>
 </section>
 
-<!-- Slide 6 - Eq. 2 -->
+<!-- Slide 7 - Eq. 2 -->
 <section class="s">
 <div class="k r">Eq. 2</div>
 <h1>Definição de velocidade e equação em x<sub>p</sub></h1>
@@ -166,7 +185,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <p class="sm r">A equação relaciona posição e velocidade num único estado. O compressor fica com dois estados, (x<sub>p</sub>, v<sub>p</sub>), o que explica sua ordem 2.</p>
 </section>
 
-<!-- Slide 7 - Eq. 3 -->
+<!-- Slide 8 - Eq. 3 -->
 <section class="s">
 <div class="k r">Eq. 3</div>
 <h1>Inércia fluida na coluna de gás</h1>
@@ -186,7 +205,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div></div>
 </section>
 
-<!-- Slide 8 - Eq. 4 -->
+<!-- Slide 9 - Eq. 4 -->
 <section class="s">
 <div class="k r">Eq. 4</div>
 <h1>Compressibilidade do gás</h1>
@@ -202,7 +221,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div>
 </section>
 
-<!-- Slide 9 - Eq. 5 -->
+<!-- Slide 10 - Eq. 5 -->
 <section class="s">
 <div class="k r">Eq. 5</div>
 <h1>Transferência de calor no regenerador</h1>
@@ -217,7 +236,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </div>
 </section>
 
-<!-- Slide 10 - Eliminacao (passos 1 a 4) -->
+<!-- Slide 11 - Eliminacao (passos 1 a 4) -->
 <section class="s">
 <div class="k r">Eliminação (passos 1 a 4)</div>
 <h1>Operador de derivação D</h1>
@@ -228,7 +247,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <p class="sm r">Dⁿ = <span class="f"><span>dⁿ</span><span>dtⁿ</span></span>. Cada passo é identidade das equações originais; nenhuma informação é perdida.</p>
 </section>
 
-<!-- Slide 11 - Eliminacao (passos 5 a 8) -->
+<!-- Slide 12 - Eliminacao (passos 5 a 8) -->
 <section class="s">
 <div class="k r">Eliminação (passos 5 a 8)</div>
 <h1>Eliminação de v<sub>p</sub> e de x<sub>p</sub></h1>
@@ -239,35 +258,36 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <p class="sm r">A eliminação de x<sub>p</sub> ocorre no passo 6: derivar a equação mecânica troca K<sub>p</sub>x<sub>p</sub> por K<sub>p</sub>v<sub>p</sub>.</p>
 </section>
 
-<!-- Slide 12 - Coeficientes -->
+<!-- Slide 13 - Coeficientes -->
 <section class="s">
 <div class="k r">Coeficientes</div>
 <h1>Expansão de N<sub>B</sub>(D) e coeficientes oficiais</h1>
 <div class="two">
 <div class="col r" style="--a:#22d3ee">
-<div class="eq">N<sub>B</sub>(D) = n<sub>4</sub>D⁴ + n<sub>3</sub>D³ + n<sub>2</sub>D² + n<sub>1</sub>D + n<sub>0</sub></div>
-<div class="eq">n<sub>4</sub> = M<sub>p</sub>C<sub>f</sub>L<sub>f</sub> ; n<sub>3</sub> = M<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + B<sub>p</sub>C<sub>f</sub>L<sub>f</sub><br>n<sub>2</sub> = M<sub>p</sub> + B<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + K<sub>p</sub>C<sub>f</sub>L<sub>f</sub> + A<sub>p</sub>²L<sub>f</sub><br>n<sub>1</sub> = B<sub>p</sub> + K<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + A<sub>p</sub>²R<sub>f</sub> ; n<sub>0</sub> = K<sub>p</sub></div>
-<div class="eq">c<sub>k</sub> = C<sub>th</sub>n<sub>k−1</sub> + H<sub>r</sub>n<sub>k</sub> (produto por G(D))</div>
+<div class="eq" style="font-size:1.1em;margin:.7em 0">N<sub>B</sub>(D) = n<sub>4</sub>D⁴ + n<sub>3</sub>D³ + n<sub>2</sub>D² + n<sub>1</sub>D + n<sub>0</sub></div>
+<div class="eq" style="font-size:1.1em;margin:.7em 0">n<sub>4</sub> = M<sub>p</sub>C<sub>f</sub>L<sub>f</sub> ; n<sub>3</sub> = M<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + B<sub>p</sub>C<sub>f</sub>L<sub>f</sub><br>n<sub>2</sub> = M<sub>p</sub> + B<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + K<sub>p</sub>C<sub>f</sub>L<sub>f</sub> + A<sub>p</sub>²L<sub>f</sub><br>n<sub>1</sub> = B<sub>p</sub> + K<sub>p</sub>C<sub>f</sub>R<sub>f</sub> + A<sub>p</sub>²R<sub>f</sub> ; n<sub>0</sub> = K<sub>p</sub></div>
+<div class="eq" style="font-size:1.1em;margin:.7em 0">c<sub>k</sub> = C<sub>th</sub>n<sub>k−1</sub> + H<sub>r</sub>n<sub>k</sub> (produto por G(D))</div>
 </div>
 <div class="col r" style="--a:#f472b6">
 <table class="tab"><tr><th>Coeficiente</th><th>Valor (Modelo B)</th></tr><tr><td>c<sub>5</sub></td><td>0,0048</td></tr><tr><td>c<sub>4</sub></td><td>0,14792</td></tr><tr><td>c<sub>3</sub></td><td>18,80258</td></tr><tr><td>c<sub>2</sub></td><td>227,117075</td></tr><tr><td>c<sub>1</sub></td><td>15033,645</td></tr><tr><td>c<sub>0</sub></td><td>2250</td></tr><tr><td>d<sub>1</sub></td><td>62,5</td></tr></table>
 </div></div>
-<div class="eq r" style="text-align:center">c<sub>5</sub><span class="f"><span>d<sup>5</sup>T<sub>f</sub>(t)</span><span>dt<sup>5</sup></span></span> + c<sub>4</sub><span class="f"><span>d<sup>4</sup>T<sub>f</sub>(t)</span><span>dt<sup>4</sup></span></span> + c<sub>3</sub><span class="f"><span>d<sup>3</sup>T<sub>f</sub>(t)</span><span>dt<sup>3</sup></span></span> + c<sub>2</sub><span class="f"><span>d<sup>2</sup>T<sub>f</sub>(t)</span><span>dt<sup>2</sup></span></span> + c<sub>1</sub><span class="f"><span>dT<sub>f</sub>(t)</span><span>dt</span></span> + c<sub>0</sub>T<sub>f</sub>(t) = d<sub>1</sub><span class="f"><span>dv<sub>c</sub>(t)</span><span>dt</span></span></div>
+<p class="r" style="margin:1.6em 0 1em;font-size:1.05em;font-weight:600">Equação final da relação entre a entrada v<sub>c</sub>(t) e a temperatura de saída T<sub>f</sub>(t):</p>
+<p class="box" style="text-align:center;font-size:1.05em;margin:0 0 2em;white-space:nowrap;display:block">c<sub>5</sub><span class="f"><span>d<sup>5</sup>T<sub>f</sub>(t)</span><span>dt<sup>5</sup></span></span> + c<sub>4</sub><span class="f"><span>d<sup>4</sup>T<sub>f</sub>(t)</span><span>dt<sup>4</sup></span></span> + c<sub>3</sub><span class="f"><span>d<sup>3</sup>T<sub>f</sub>(t)</span><span>dt<sup>3</sup></span></span> + c<sub>2</sub><span class="f"><span>d<sup>2</sup>T<sub>f</sub>(t)</span><span>dt<sup>2</sup></span></span> + c<sub>1</sub><span class="f"><span>dT<sub>f</sub>(t)</span><span>dt</span></span> + c<sub>0</sub>T<sub>f</sub>(t) = d<sub>1</sub><span class="f"><span>dv<sub>c</sub>(t)</span><span>dt</span></span></p>
 </section>
 
-<!-- Slide 13 - Transformada de Laplace -->
+<!-- Slide 14 - Transformada de Laplace -->
 <section class="s">
 <div class="k r">Transformada de Laplace</div>
 <h1>Laplace unilateral com condições iniciais nulas</h1>
-<div class="eq r"><b>Hipótese:</b> L{f<sup>(n)</sup>(t)} = s<sup>n</sup>F(s), com todas as condições iniciais nulas</div>
+<div class="eq r" style="font-size:1.12em;margin:.7em 0"><b>Hipótese:</b> L{f<sup>(n)</sup>(t)} = s<sup>n</sup>F(s), com todas as condições iniciais nulas</div>
 <div class="eq r">L{T<sub>f</sub>'} = sT<sub>f</sub>(s) ; L{T<sub>f</sub><sup>(5)</sup>} = s⁵T<sub>f</sub>(s) ; L{v<sub>c</sub>'} = sV<sub>c</sub>(s)</div>
 <div class="eq r">(c<sub>5</sub>s⁵ + c<sub>4</sub>s⁴ + c<sub>3</sub>s³ + c<sub>2</sub>s² + c<sub>1</sub>s + c<sub>0</sub>)T<sub>f</sub>(s) = d<sub>1</sub>sV<sub>c</sub>(s)</div>
-<p class="box">H(s) = <span class="f"><span>T<sub>f</sub>(s)</span><span>V<sub>c</sub>(s)</span></span> = <span class="f"><span>d<sub>1</sub>s</span><span>c<sub>5</sub>s⁵ + c<sub>4</sub>s⁴ + c<sub>3</sub>s³ + c<sub>2</sub>s² + c<sub>1</sub>s + c<sub>0</sub></span></span></p>
-<div class="eq r"><b>Numérico (Modelo B):</b> H(s) = <span class="f"><span>62,5 s</span><span>0,0048 s⁵ + 0,14792 s⁴ + 18,80258 s³ + 227,117075 s² + 15033,645 s + 2250</span></span></div>
+<p class="box" style="font-size:1.25em;margin:1.1em 0;display:block">H(s) = <span class="f"><span>T<sub>f</sub>(s)</span><span>V<sub>c</sub>(s)</span></span> = <span class="f"><span>d<sub>1</sub>s</span><span>c<sub>5</sub>s⁵ + c<sub>4</sub>s⁴ + c<sub>3</sub>s³ + c<sub>2</sub>s² + c<sub>1</sub>s + c<sub>0</sub></span></span></p>
+<div class="eq r" style="font-size:1.12em;margin:1em 0 0.6em"><b>Numérico (Modelo B):</b> H(s) = <span class="f"><span>62,5 s</span><span>0,0048 s⁵ + 0,14792 s⁴ + 18,80258 s³ + 227,117075 s² + 15033,645 s + 2250</span></span></div>
 <p class="sm r">Numerador com fator s, logo H(0) = 0: tensão contínua não altera T<sub>f</sub> em regime. Denominador de grau 5 e numerador de grau 1: H(s) é estritamente própria.</p>
 </section>
 
-<!-- Slide 14 - Analisador (Parte II) -->
+<!-- Slide 15 - Analisador (Parte II) -->
 <section class="s" id="s14">
 <div class="k r">Parte II: recurso computacional</div>
 <h1>Programa de análise de H(s), em execução</h1>
@@ -286,6 +306,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 </section>
 
  <!-- Slide 15 - Plano s, causalidade, estabilidade e RDC -->
+<!-- Slide 16 - Plano s, causalidade, estabilidade e RDC -->
 <section class="s">
 <div class="k r">Plano s, causalidade, estabilidade e RDC</div>
 <h1>Região de convergência</h1>
@@ -330,7 +351,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <script>
 const S=[...document.querySelectorAll('.s')];let i=0;
 const bar=document.getElementById('bar'),nn=document.getElementById('n');
-function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=(i>14?'Apêndice '+(i-14)+'/2':(i+1)+' / 15')+'  ·  ← → F'}
+function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=(i>15?'Apêndice '+(i-15)+'/2':(i+1)+' / 16')+'  ·  ← → F'}
 
 const ign=t=>t.closest&&t.closest('button,a,input,textarea,select,summary,details,canvas,label,.nonav');
 document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,textarea,select'))return;
