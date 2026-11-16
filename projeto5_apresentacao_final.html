@@ -23,6 +23,7 @@ h1{font-size:clamp(24px,4.4vh,44px);line-height:1.15;margin-bottom:.5em;backgrou
 .cover h1{font-size:clamp(26px,5.6vh,54px)}
 @keyframes grad{to{background-position:200% center}}
 h2{font-size:1.05em;margin:.2em 0}
+h2.parameters-title{font-size:clamp(22px,3.6vh,36px);line-height:1.15;margin:1.2em 0 1em;background:linear-gradient(90deg,#22d3ee,#a78bfa,#f472b6,#fbbf24,#22d3ee);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:up .6s both,grad 5s linear infinite}
 p,li{line-height:1.4;margin:.25em 0}
 li{list-style:none}
 li::before{content:"▸ ";color:#22d3ee}
@@ -89,7 +90,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <section class="s">
 <div class="k r">Sinais e Sistemas · Projeto 5</div>
 <h1>Sistema de Refrigeração Criogênica por Pulso de Tubo para Sensores de Satélites Quânticos</h1>
-<p class="r">Modelagem da entrada <b>v<sub>c</sub>(t)</b> (tensão no compressor) até a saída <b>T<sub>f</sub>(t)</b> (temperatura na extremidade fria)</p>
+<p class="r">Modelagem da entrada <b>V<sub>c</sub>(t)</b> (tensão no compressor) até a saída <b>T<sub>f</sub>(t)</b> (temperatura na extremidade fria)</p>
 <div class="r" style="margin-top:2em"><span class="k">Professor</span>
 <div class="c" style="display:block;width:fit-content;margin-top:.6em">Artur Passos Dias Lima</div></div>
 <div class="r" style="margin-top:1.2em"><span class="k">Equipe</span>
@@ -147,14 +148,15 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <!-- Slide 5 - Variaveis e parametros -->
 <section class="s">
 <div class="k r">Variáveis e parâmetros</div>
-<h1>Variáveis de estado e parâmetros oficiais</h1>
+<h1>Variáveis de estado e Parâmetros oficiais</h1>
 <table class="r"><tr><th>Símbolo</th><th>Significado</th><th>Unidade</th></tr>
-<tr><td>x<sub>p</sub>(t)</td><td>posição do pistão</td><td>m</td></tr>
+<tr><td>x<sub>p</sub>(t)</td><td>posição/deslocamento do pistão</td><td>m</td></tr>
 <tr><td>v<sub>p</sub>(t)</td><td>velocidade do pistão</td><td>m/s</td></tr>
 <tr><td>p<sub>t</sub>(t)</td><td>pressão acústica</td><td>Pa</td></tr>
-<tr><td>v<sub>f</sub>(t)</td><td>vazão volumétrica do gás (não é velocidade linear)</td><td>m³/s</td></tr>
+<tr><td>v<sub>f</sub>(t)</td><td>vazão volumétrica do gás</td><td>m³/s</td></tr>
 <tr><td>T<sub>f</sub>(t)</td><td>temperatura na extremidade fria</td><td>K</td></tr></table>
-<div class="g r" style="margin-top:2em;font-size:0.9em">
+<h2 class="parameters-title">Parâmetros Adotados</h2>
+<div class="g r" style="font-size:0.9em">
 <div class="c">C<sub>th</sub> = 10 J/K</div><div class="c">H<sub>r</sub> = 1,5 W/K</div><div class="c">L<sub>f</sub> = 0,5 kg/m⁴</div><div class="c">R<sub>f</sub> = 12 Ns/m⁵</div><div class="c">C<sub>f</sub> = 8,0×10<sup>−4</sup> m⁵/N</div><div class="c">M<sub>p</sub> = 1,2 kg</div><div class="c">B<sub>p</sub> = 8 Ns/m</div><div class="c">K<sub>p</sub> = 1500 N/m</div><div class="c">A<sub>p</sub> = 0,05 m²</div><div class="c">K<sub>term</sub> = 250 K/(m³/s)</div><div class="c">K<sub>e</sub> = 5 N/V</div>
 </div>
 </section>
