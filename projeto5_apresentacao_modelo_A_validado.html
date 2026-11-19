@@ -328,7 +328,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <div class="k r">Eliminação da pressão p<sub>t</sub></div>
 <h1>Construção de P(D)</h1>
 <div class="eq r" style="margin-top:.8em"><b>9. Utilizando o operador derivativo D = d/dt e isolando Vf:</b> A<sub>p</sub>² D x<sub>p</sub> = (L<sub>f</sub>C<sub>f</sub>D² + R<sub>f</sub>C<sub>f</sub>D + A<sub>p</sub>) v<sub>f</sub></div>
-<div class="eq r"><b>10. Definindo:</b> <span class="box" style="margin:0 .6em">P(D) = L<sub>f</sub>C<sub>f</sub>D² + R<sub>f</sub>C<sub>f</sub>D + A<sub>p</sub></span> ; portanto <span class="box" style="margin:0 .6em">P(D) v<sub>f</sub> = A<sub>p</sub>² D x<sub>p</sub></span></div>
+<div class="eq r"><b>10. Definindo:</b> <span class="box" style="margin:0 .6em">P(D) = L<sub>f</sub>C<sub>f</sub>D² + R<sub>f</sub>C<sub>f</sub>D + A<sub>p</sub></span> &emsp;; &emsp;portanto: <span class="box" style="margin:0 .6em">P(D) v<sub>f</sub> = A<sub>p</sub>² D x<sub>p</sub></span></div>
 <div class="eq r"><b>11. Numericamente:</b> <span class="box" style="margin:0 .6em">P(D) = 0,0004 D² + 0,0096 D + 0,05</span></div>
 <div class="g r" style="margin-top:1em;font-size:0.9em">
 <div class="c">L<sub>f</sub> = 0,5 kg/m⁴</div>
@@ -391,13 +391,13 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 
 <!-- Slide 14 - Transformada de Laplace -->
 <section class="s">
-<div class="k r">Transformada de Laplace</div>
-<h1>Laplace unilateral com condições iniciais nulas</h1>
-<div class="eq r" style="font-size:1.12em;margin:.7em 0"><b>Hipótese:</b> L{f^(n)(t)} = s^n F(s), com todas as condições iniciais nulas</div>
-<div class="eq r">L{T_f'} = s T_f(s) ; L{T_f^(5)} = s^5 T_f(s) ; L{v_c'} = s V_c(s)</div>
-<div class="eq r">(0,0048s^5+0,14792s^4+7,40258s^3+149,407075s^2+772,245s+112,5) T_f(s) = 3,125 s V_c(s)</div>
-<p class="box" style="font-size:1.25em;margin:1.1em 0;display:block">H(s) = T_f(s)/V_c(s) = 3,125 s / (0,0048s^5+0,14792s^4+7,40258s^3+149,407075s^2+772,245s+112,5)</p>
-<p class="sm r">Numerador com fator s, logo H(0)=0: tensão contínua não altera T_f em regime. Denominador de grau 5 e numerador de grau 1: H(s) é estritamente própria.</p>
+<div class="k r">Transformada de Laplace e Função de Transferência</div>
+<h1>Laplace com condições iniciais nulas e Função de Transferência</h1>
+<div class="eq r"><b>1. Hipótese:</b> L{<span class="f"><span>d<sup>n</sup>f(t)</span><span>dt<sup>n</sup></span></span>} = s<sup>n</sup> F(s), com todas as condições iniciais nulas</div>
+<div class="eq r"><b>2. Aplicando na Equação:</b> L{<span class="f"><span>dT<sub>f</sub></span><span>dt</span></span>} = s T<sub>f</sub>(s) &emsp;; &emsp;L{<span class="f"><span>d⁵T<sub>f</sub></span><span>dt⁵</span></span>} = s⁵ T<sub>f</sub>(s) &emsp;; &emsp;L{<span class="f"><span>dv<sub>c</sub></span><span>dt</span></span>} = s V<sub>c</sub>(s)</div>
+<div class="eq r"><b>3. Substituindo e isolando Tf:</b> (0,0048s⁵ + 0,14792s⁴ + 7,40258s³ + 149,407075s² + 772,245s + 112,5) T<sub>f</sub>(s) = 3,125 s V<sub>c</sub>(s)</div>
+<p class="box" style="font-size:1.15em;margin:1.6em 0;padding:1.1em 1.2em;display:block;text-align:center">H(s) = <span class="f"><span>T<sub>f</sub>(s)</span><span>V<sub>c</sub>(s)</span></span> = <span class="f"><span>3,125 s</span><span>0,0048s⁵ + 0,14792s⁴ + 7,40258s³ + 149,407075s² + 772,245s + 112,5</span></span></p>
+<p class="sm r">O numerador possui o fator <i>s</i>, resultando em <i>H</i>(0)=0, ou seja, ganho estático nulo: uma entrada constante não produz variação permanente na temperatura de saída, considerando condições iniciais nulas. Além disso, como o denominador possui grau 5 e o numerador grau 1, <i>H</i>(<i>s</i>) é estritamente própria.</p>
 </section>
 
 
