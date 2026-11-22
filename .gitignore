@@ -3,3 +3,11 @@ __pycache__/
 *.pyc
 .env/
 .env
+
+# Gerados / desnecessarios para abrir a apresentacao (a imagem esta embutida em base64)
+resultados_modelo_*.json
+imagens/plano_s_modelo_*.png
+projeto5_apresentacao_final.html
+*.log
+Thumbs.db
+
