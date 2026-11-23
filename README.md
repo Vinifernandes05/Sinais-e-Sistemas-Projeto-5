@@ -161,16 +161,59 @@ $$
 
 ---
 
-## 8. Modelo A × Modelo B
+## 8. Modelo A × Modelo B — comparação numérica
 
-| Item | Modelo A (impresso) | Modelo B (proposto) |
+Os valores abaixo foram extraídos diretamente de `resultados_modelo_A.json` e `resultados_modelo_B.json`.
+
+### 8.1 Coeficientes das funções de transferência
+
+Com $H(s)=\dfrac{d_1s}{c_5s^5+c_4s^4+c_3s^3+c_2s^2+c_1s+c_0}$:
+
+| Coeficiente | Modelo A | Modelo B |
 |---|---|---|
-| $d_1$ | 3,125 | 62,5 |
-| Polos da coluna | reais: $-7{,}6$ e $-16{,}4$ | complexos: $-12\pm j48{,}6$ |
-| Homogeneidade da Eq. 3 | não | sim |
-| Estabilidade | estável | estável |
+| $d_1$ (numerador) | 3,125 | 62,5 |
+| $c_5$ | 0,0048 | 0,0048 |
+| $c_4$ | 0,14792 | 0,14792 |
+| $c_3$ | 7,40258 | 18,80258 |
+| $c_2$ | 149,407075 | 227,117075 |
+| $c_1$ | 772,245 | 15033,645 |
+| $c_0$ | 112,5 | 2250 |
 
-Ambos são estáveis; a escolha altera coeficientes e modos, não a estabilidade.
+**Modelo A:**
+
+$$
+H_A(s)=\frac{3{,}125\,s}{0{,}0048s^5+0{,}14792s^4+7{,}40258s^3+149{,}407075s^2+772{,}245s+112{,}5}
+$$
+
+**Modelo B:**
+
+$$
+H_B(s)=\frac{62{,}5\,s}{0{,}0048s^5+0{,}14792s^4+18{,}80258s^3+227{,}117075s^2+15033{,}645s+2250}
+$$
+
+### 8.2 Zeros, polos e RDC
+
+| Item | Modelo A | Modelo B |
+|---|---|---|
+| Zeros | $z=0$ | $z=0$ |
+| $p_1$ (térmico) | $-0{,}15$ | $-0{,}15$ |
+| $p_{2,3}$ (compressor) | $-3{,}33492\pm j35{,}23791$ | $-3{,}36468\pm j35{,}17330$ |
+| $p_{4,5}$ (coluna de gás) | $-7{,}61156$ e $-16{,}38527$ (reais) | $-11{,}96865\pm j48{,}57767$ (complexos) |
+| $\sigma_{\max}=\max\mathrm{Re}(p_i)$ | $-0{,}15$ | $-0{,}15$ |
+| RDC (ROC) causal | $\mathrm{Re}(s)>-0{,}15$ | $\mathrm{Re}(s)>-0{,}15$ |
+
+### 8.3 Estabilidade, causalidade e verificação numérica
+
+| Item | Modelo A | Modelo B |
+|---|---|---|
+| Estabilidade | BIBO estável (todos os polos com $\mathrm{Re}(s)<0$; a ROC contém o eixo $j\omega$) | BIBO estável (todos os polos com $\mathrm{Re}(s)<0$; a ROC contém o eixo $j\omega$) |
+| Causalidade | causal (hipótese de realização física); $H(s)$ estritamente própria | causal (hipótese de realização física); $H(s)$ estritamente própria |
+| $|r|_{\max}$ (resíduo relativo) | $2{,}03\times10^{-16}$ | $2{,}02\times10^{-16}$ |
+| Erro relativo máx. do denominador (conferência literal) | — | $1{,}25\times10^{-16}$ |
+| Erro relativo de $d_1$ (conferência literal) | — | $0$ |
+| Homogeneidade da Eq. 3 | não ($A_pp_t$) | sim ($p_t$) |
+
+Ambos são BIBO estáveis e causais; a escolha do modelo altera os coeficientes e os modos (polos), não a estabilidade. No Modelo A os polos da coluna de gás são reais ($-7{,}61$ e $-16{,}39$), enquanto no Modelo B surgem como um par complexo ($-11{,}97\pm j48{,}58$) — diferença associada à forma homogênea da Eq. 3.
 
 ---
 
