@@ -426,7 +426,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <script>
 const S=[...document.querySelectorAll('.s')];let i=0;
 const bar=document.getElementById('bar'),nn=document.getElementById('n');
-function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=(i>17?'Apêndice '+(i-17)+'/1':(i+1)+' / 18')+'  ·  ← → F'}
+function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=((i+1)+' / '+S.length)+'  ·  ← → F'}
 
 const ign=t=>t.closest&&t.closest('button,a,input,textarea,select,summary,details,canvas,label,.nonav');
 document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,textarea,select'))return;
