@@ -22,7 +22,7 @@ $$H_A(s)=\frac{3{,}125\,s}{0{,}0048s^5+0{,}14792s^4+7{,}40258s^3+149{,}407075s^2
 
 $$H_B(s)=\frac{62{,}5\,s}{0{,}0048s^5+0{,}14792s^4+18{,}80258s^3+227{,}117075s^2+15033{,}645s+2250}$$
 
-Ambos possuem zero em $s=0$, RDC causal $\operatorname{Re}(s)>-0{,}15$ e são **BIBO estáveis**: a escolha altera coeficientes e modos (polos), não a estabilidade. No Modelo A os polos da coluna de gás são reais ($-7{,}61$ e $-16{,}39$); no Modelo B, formam um par complexo ($-11{,}97\pm j48{,}58$).
+Ambos possuem zero em $s=0$, RDC causal $Re(s)>-0{,}15$ e são **BIBO estáveis**: a escolha altera coeficientes e modos (polos), não a estabilidade. No Modelo A os polos da coluna de gás são reais ($-7{,}61$ e $-16{,}39$); no Modelo B, formam um par complexo ($-11{,}97\pm j48{,}58$).
 
 ## Estrutura do projeto
 
