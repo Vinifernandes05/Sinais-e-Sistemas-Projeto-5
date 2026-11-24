@@ -110,7 +110,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <div class="r" style="margin-top:2em"><span class="k">Professor</span>
 <div class="c" style="display:block;width:fit-content;margin-top:.6em">Artur Passos Dias Lima</div></div>
 <div class="r" style="margin-top:1.2em"><span class="k">Equipe</span>
-<div class="g5"><div class="c">Vinicius Fernandes</div><div class="c">Marcos Menezes</div><div class="c">Rafael Guerra</div><div class="c">Rian Dutra</div><div class="c">Leonardo Magalhães</div></div></div>
+<div class="g5"><div class="c">Leonardo Magalhães</div><div class="c">Marcos Menezes</div><div class="c">Rafael Guerra</div><div class="c">Rian Dutra</div><div class="c">Vinicius Fernandes</div></div></div>
 </section>
 
 <!-- Slide 2 - Sumario -->
@@ -418,7 +418,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <table class="tab"><tr><th>Coeficiente</th><th>Modelo A (Referência)</th><th>Modelo B (Comparativo)</th></tr><tr><td>c<sub>5</sub></td><td>0,0048</td><td>0,0048</td></tr><tr><td>c<sub>4</sub></td><td>0,14792</td><td>0,14792</td></tr><tr><td>c<sub>3</sub></td><td>7,40258</td><td>18,80258</td></tr><tr><td>c<sub>2</sub></td><td>149,407075</td><td>227,117075</td></tr><tr><td>c<sub>1</sub></td><td>772,245</td><td>15033,645</td></tr><tr><td>c<sub>0</sub></td><td>112,5</td><td>2250</td></tr><tr><td>d<sub>1</sub></td><td>3,125</td><td>62,5</td></tr></table>
 <ul class="pl r" style="margin-top:.6em">
 <li>Modelo A (com A<sub>p</sub>) foi o adotado na modelagem final e validado pelo professor. Modelo B (sem A<sub>p</sub>) é apenas para demonstrar a divergência analítica.</li>
-<li>Ambos os modelos são estáveis, com RDC Re(s) &gt; −0,15. A escolha altera coeficientes e modos, não a estabilidade.</li>
+<li>Ambos os modelos são estáveis, com RDC Re(s) &gt; −0,15. A escolha altera os coeficientes, mas não a estabilidade do sistema.</li>
 </ul>
 </section>
 
@@ -426,7 +426,7 @@ summary{cursor:pointer;color:#fde68a;font-weight:600}
 <script>
 const S=[...document.querySelectorAll('.s')];let i=0;
 const bar=document.getElementById('bar'),nn=document.getElementById('n');
-function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=(i>17?'Apêndice '+(i-17)+'/1':(i+1)+' / 18')+'  ·  ← → F'}
+function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>{s.classList.toggle('on',j===i);if(j===i)s.querySelectorAll('.r').forEach((e,q)=>e.style.setProperty('--d',(q*.1+.1)+'s'))});bar.style.width=((i+1)/S.length*100)+'%';nn.textContent=(i+1)+' / '+S.length+'  ·  ← → F'}
 
 const ign=t=>t.closest&&t.closest('button,a,input,textarea,select,summary,details,canvas,label,.nonav');
 document.addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,textarea,select'))return;
