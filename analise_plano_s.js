@@ -2,19 +2,10 @@
  * analise_plano_s.js
  *
  * Módulo isolado do analisador de H(s) do Projeto 5.
- * Antes, este código estava embutido no final de
- * projeto5_apresentacao_modelo_A_validado.html.
- *
- * Responsabilidade:
- *   - ler numerador/denominador e a hipótese de causalidade;
- *   - calcular polos e zeros por raízes do polinômio;
- *   - cancelar polos e zeros coincidentes;
- *   - determinar a RDC e classificar a estabilidade:
- *     estável, instável, marginalmente estável ou inconclusivo;
- *   - desenhar o plano s no <canvas> da apresentação.
- *
- * Não usa bibliotecas externas. É carregado por um <script src> local
- * após o DOM da apresentação, mantendo a funcionalidade original.
+ * Classificação estrita de estabilidade no plano s:
+ *   - estável
+ *   - marginalmente estável
+ *   - instável
  */
 (function () {
   "use strict";
@@ -54,40 +45,36 @@
     mul: (a, b) => [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]],
     div: (a, b) => {
       const d = b[0] * b[0] + b[1] * b[1];
+      if (d === 0) return [0, 0];
       return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
     },
     abs: a => Math.hypot(a[0], a[1])
   };
 
   // ---------------------------------------------------------------------------
-  // 3. Cálculo das raízes: zeros vêm do numerador, polos do denominador
-  //    Método iterativo simultâneo (Durand-Kerner), igual ao código original.
+  // 3. Cálculo das raízes (Durand-Kerner)
   // ---------------------------------------------------------------------------
   function raizes(c) {
     const n = c.length - 1;
     if (n < 1) return [];
 
-    // Normalização pelo coeficiente líder e raio inicial de busca.
     const a = c.map(x => x / c[0]);
     const R = 1 + Math.max(...a.slice(1).map(Math.abs));
 
-    // Chutes iniciais distribuídos em torno de zero.
     let z = [...Array(n)].map((_, k) => [
       R * 0.7 * Math.cos(2 * Math.PI * k / n + 0.4),
       R * 0.7 * Math.sin(2 * Math.PI * k / n + 0.4)
     ]);
 
-    // Avaliação do polinômio em x.
     const P = x => a.reduce((s, k) => C.add(C.mul(s, x), [k, 0]), [0, 0]);
 
-    // Iterações até convergência ou limite de 500 passos.
     for (let it = 0; it < 500; it++) {
       let m = 0;
       z = z.map((zi, k) => {
         let d = [1, 0];
-        z.forEach((zj, j) => {
-          if (j !== k) d = C.mul(d, C.sub(zi, zj));
-        });
+        for (let j = 0; j < z.length; j++) {
+          if (j !== k) d = C.mul(d, C.sub(zi, z[j]));
+        }
         const dz = C.div(P(zi), d);
         m = Math.max(m, C.abs(dz));
         return C.sub(zi, dz);
@@ -95,7 +82,6 @@
       if (m < 1e-13 * R) break;
     }
 
-    // Zera componentes numericamente insignificantes para limpar a saída.
     return z.map(x => [
       Math.abs(x[0]) < 1e-9 ? 0 : x[0],
       Math.abs(x[1]) < 1e-9 ? 0 : x[1]
@@ -123,60 +109,74 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 5. Classificação da estabilidade a partir dos polos efetivos
-  //    Regras mantidas exatamente como na versão embutida no HTML:
-  //      - sem causalidade assumida ou H(s) imprópria -> inconclusivo;
-  //      - polo no semiplano direito -> instável;
-  //      - polo repetido sobre jω -> instável;
-  //      - polos simples sobre jω -> marginalmente estável;
-  //      - todos com Re(s) < 0 -> estável (BIBO, com RDC contendo jω).
+  // 5. Classificação estrita da estabilidade (sem estado "inconclusivo")
+  //    Ordem de prioridade (critério do plano s para sistema causal):
+  //      1) Polo efetivo com Re(s) > 0                -> instável
+  //      2) Polo efetivo repetido sobre jω            -> instável
+  //      3) H(s) imprópria (grau N > grau D)          -> instável
+  //      4) Polo(s) efetivo(s) simples sobre jω       -> marginalmente estável
+  //      5) Todos com Re(s) < 0 (ou ganho constante)  -> estável
   // ---------------------------------------------------------------------------
   function classificar(polosEfetivos, numerador, denominador, causal) {
+    const grauN = numerador.length - 1;
+    const grauD = denominador.length - 1;
+    const impropria = grauN > grauD;
+
     const sig = polosEfetivos.length
       ? Math.max(...polosEfetivos.map(p => p[0]))
-      : -Infinity;
+      : null;
+
     const esc = Math.max(1, ...polosEfetivos.map(C.abs));
-    const tol = 1e-6 * esc;
+    const tol = 1e-5 * esc;
 
     const sobreEixo = polosEfetivos.filter(p => Math.abs(p[0]) <= tol);
     const direita = polosEfetivos.filter(p => p[0] > tol);
 
-    const repetido = sobreEixo.some((p, a) =>
-      sobreEixo.some((q, b) =>
-        a !== b && C.abs(C.sub(p, q)) <= 1e-4 * Math.max(1, C.abs(p))
-      )
-    );
+    let repetido = false;
+    for (let i = 0; i < sobreEixo.length; i++) {
+      for (let j = i + 1; j < sobreEixo.length; j++) {
+        const dist = C.abs(C.sub(sobreEixo[i], sobreEixo[j]));
+        if (dist <= 1e-4 * Math.max(1, C.abs(sobreEixo[i]))) {
+          repetido = true;
+        }
+      }
+    }
+
+    const avisoCausal = causal
+      ? ""
+      : " (Critério causal padrão adotado para a classificação no plano s.)";
 
     let est, col, ex;
-    if (!causal) {
-      est = "inconclusivo";
-      col = "#fbbf24";
-      ex = "Sem hipótese causal a RDC não é fixada pelos polos.";
-    } else if (numerador.length > denominador.length) {
-      est = "inconclusivo";
-      col = "#fbbf24";
-      ex = "H(s) imprópria (grau N > grau D).";
-    } else if (direita.length) {
+
+    if (direita.length > 0) {
       est = "instável";
       col = "#f87171";
-      ex = "Polo com Re(s) > 0.";
-    } else if (sobreEixo.length) {
-      if (repetido) {
-        est = "instável";
-        col = "#f87171";
-        ex = "Polo repetido sobre jω.";
-      } else {
-        est = "marginalmente estável";
-        col = "#fbbf24";
-        ex = "Polos simples sobre jω; não é BIBO estável.";
-      }
+      ex = impropria
+        ? "Polo(s) com Re(s) > 0 no semiplano direito e H(s) imprópria (grau N > grau D)."
+        : "Polo(s) com Re(s) > 0 no semiplano direito.";
+    } else if (repetido) {
+      est = "instável";
+      col = "#f87171";
+      ex = impropria
+        ? "Polo repetido sobre jω e H(s) imprópria (grau N > grau D)."
+        : "Polo repetido sobre o eixo imaginário (jω).";
+    } else if (impropria) {
+      est = "instável";
+      col = "#f87171";
+      ex = "H(s) imprópria (grau N > grau D): ação derivativa pura / polo no infinito (não é BIBO estável).";
+    } else if (sobreEixo.length > 0) {
+      est = "marginalmente estável";
+      col = "#fbbf24";
+      ex = "Polo(s) simples sobre o eixo imaginário (jω) e nenhum no semiplano direito; não é BIBO estável.";
     } else {
       est = "estável";
       col = "#34d399";
-      ex = "Todos Re(s) < 0; RDC contém jω (BIBO estável).";
+      ex = polosEfetivos.length
+        ? "Todos os polos efetivos têm Re(s) < 0; RDC contém jω (BIBO estável)."
+        : "Sem polos efetivos e H(s) própria (ganho constante; BIBO estável).";
     }
 
-    return { est, col, ex, sig };
+    return { est, col, ex: ex + avisoCausal, sig };
   }
 
   // ---------------------------------------------------------------------------
@@ -201,7 +201,7 @@
     ctx.fillRect(X(0), 0, W - X(0), H);
 
     // Faixa da RDC (Re(s) > polo mais à direita).
-    if (sig !== null) {
+    if (sig !== null && isFinite(sig)) {
       ctx.fillStyle = "#22d3ee55";
       ctx.fillRect(X(sig), 0, W - X(sig), H);
       ctx.strokeStyle = "#0891b2";
@@ -229,9 +229,13 @@
     ctx.fillStyle = "#b91c1c";
     ctx.fillText("semiplano direito", W - 130, 16);
 
-    if (sig !== null) {
+    if (sig !== null && isFinite(sig)) {
       ctx.fillStyle = "#0e7490";
-      ctx.fillText("RDC: Re(s) > " + (sig.toFixed(4) * 1), Math.min(X(sig) + 6, W - 150), H - 8);
+      ctx.fillText(
+        "RDC: Re(s) > " + Number(sig.toFixed(4)),
+        Math.min(X(sig) + 6, W - 150),
+        H - 8
+      );
     }
 
     // Polos: cruzes; zeros: círculos.
@@ -258,7 +262,7 @@
     ctx.strokeStyle = "#d97706";
     zeros.forEach(z => {
       ctx.beginPath();
-      ctx.arc(X(z[0]), Y(z[1]), 7, 0, 7);
+      ctx.arc(X(z[0]), Y(z[1]), 7, 0, Math.PI * 2);
       ctx.stroke();
     });
 
@@ -273,10 +277,10 @@
   // 7. Orquestração: ler -> calcular -> classificar -> mostrar -> desenhar
   // ---------------------------------------------------------------------------
   function formatarRaiz(p) {
-    return p[0].toFixed(6) * 1 +
+    return Number(p[0].toFixed(6)) +
       (Math.abs(p[1]) < 1e-9
         ? ""
-        : (p[1] < 0 ? "−" : "+") + Math.abs(p[1]).toFixed(6) * 1 + "j");
+        : (p[1] < 0 ? "−" : "+") + Number(Math.abs(p[1]).toFixed(6)) + "j");
   }
 
   function executar() {
@@ -288,40 +292,43 @@
       const d = removerZerosIniciais(interpretarCoeficientes(el.denominador.value, "Denominador"));
 
       if (!d.length) throw "Denominador nulo: divisão por zero.";
-      if (d.length < 2) throw "Denominador constante: não há polos.";
       if (!n.length) throw "Numerador nulo: H(s)=0.";
 
-      // Zeros = raízes do numerador; polos = raízes do denominador.
       const zeros = n.length > 1 ? raizes(n) : [];
-      const polos = raizes(d);
+      const polos = d.length > 1 ? raizes(d) : [];
 
       // Cancelamento de polo e zero coincidentes para a análise de RDC/estabilidade.
       const polosEfetivos = [...polos];
       const zerosEfetivos = [...zeros];
-      zeros.forEach(z => {
+      for (let i = 0; i < zeros.length; i++) {
+        const z = zeros[i];
         const k = polosEfetivos.findIndex(p =>
-          C.abs(C.sub(z, p)) <= 1e-6 * Math.max(1, C.abs(p))
+          C.abs(C.sub(z, p)) <= 1e-5 * Math.max(1, C.abs(p))
         );
         if (k >= 0) {
           polosEfetivos.splice(k, 1);
           zerosEfetivos.splice(zerosEfetivos.indexOf(z), 1);
         }
-      });
+      }
 
-      const causal = el.causal.checked;
+      const causal = el.causal ? el.causal.checked : true;
       const resultado = classificar(polosEfetivos, n, d, causal);
+
+      const textoRdc = !causal
+        ? "Depende da RDC escolhida"
+        : (resultado.sig === null
+            ? "todo o plano s (sem polos efetivos)"
+            : "Re(s) &gt; " + Number(resultado.sig.toFixed(6)));
 
       el.saida.innerHTML =
         "<p><b>Ordem:</b> N " + (n.length - 1) + ", D " + (d.length - 1) + "</p>" +
         "<p><b>Zeros:</b> " + (zeros.map(formatarRaiz).join("; ") || "nenhum") + "</p>" +
-        "<p><b>Polos:</b> " + [...polos].sort((a, b) => b[0] - a[0]).map(formatarRaiz).join("; ") + "</p>" +
-        "<p><b>RDC (Região de Convergência):</b> " +
-          (causal ? "Re(s) &gt; " + resultado.sig.toFixed(6) * 1 : "depende da RDC escolhida") +
-        "</p>" +
+        "<p><b>Polos:</b> " + ([...polos].sort((a, b) => b[0] - a[0]).map(formatarRaiz).join("; ") || "nenhum") + "</p>" +
+        "<p><b>RDC (Região de Convergência):</b> " + textoRdc + "</p>" +
         "<p><span class='badge' style='background:" + resultado.col + "'>" +
           resultado.est.toUpperCase() + "</span> " + resultado.ex + "</p>";
 
-      // O desenho mantém todos os polos calculados, como na versão original.
+      // Só desenha a faixa azul da RDC quando "Assumir sistema causal" estiver marcado.
       desenhar(polos, zeros, causal ? resultado.sig : null);
     } catch (erro) {
       el.mensagem.innerHTML =
@@ -333,23 +340,28 @@
   // ---------------------------------------------------------------------------
   // 8. Ligações com os controles e execução inicial
   // ---------------------------------------------------------------------------
-  el.executar.onclick = executar;
-  el.numerador.oninput = el.denominador.oninput = el.causal.onchange = executar;
+  if (el.executar) el.executar.onclick = executar;
+  if (el.numerador) el.numerador.oninput = executar;
+  if (el.denominador) el.denominador.oninput = executar;
+  if (el.causal) el.causal.onchange = executar;
 
-  el.restaurar.onclick = () => {
-    el.numerador.value = "3.125, 0";
-    el.denominador.value = "0.0048, 0.14792, 7.40258, 149.407075, 772.245, 112.5";
-    el.causal.checked = true;
-    executar();
-  };
+  if (el.restaurar) {
+    el.restaurar.onclick = () => {
+      el.numerador.value = "3.125, 0";
+      el.denominador.value = "0.0048, 0.14792, 7.40258, 149.407075, 772.245, 112.5";
+      if (el.causal) el.causal.checked = true;
+      executar();
+    };
+  }
 
-  el.limpar.onclick = () => {
-    el.numerador.value = "";
-    el.denominador.value = "";
-    executar();
-  };
+  if (el.limpar) {
+    el.limpar.onclick = () => {
+      el.numerador.value = "";
+      el.denominador.value = "";
+      executar();
+    };
+  }
 
-  // API opcional para reutilização/testes fora da apresentação.
   window.AnalisePlanoS = Object.freeze({
     raizes,
     classificar,
